@@ -175,7 +175,7 @@ export default {
                   }).catch(function (error) {
                     console.log("Error");
                     console.log(error);
-                    //this.recaptchaVerifier("recaptcha-container");
+                    this.recaptchaVerifier("recaptcha-container");
                   });
                 }
 
