@@ -217,6 +217,10 @@ export default {
 				this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
 			})
 		}
+	
+		if(window.innerWidth > 480){
+			this.shownav =  true;
+		}
 
 		
 		
