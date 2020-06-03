@@ -240,9 +240,9 @@
 
 					var newEle =`
 					<div data-aos="fade-up"  data-aos-offset="120"style="width:95%;height:100px;background-color:white;border-radius:3px;border:1px solid #ddd;box-shadow:0px 2px 5px rgba(0,0,0,0.6);margin:12px auto;padding-top:7px;">
-					<span style="color:grey;font-size:13px;margin-left:10px;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
+					<span style="color:grey;font-size:13px;margin-left:20px !important;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
 					<h6 style="margin-left:20px;margin-top:7px;font-family:Montserrat;font-weight:700">${element.service}</h6>
-					<p style="margin-top:-8px;margin-left:27px;font-size:13px;position:relative;"><i style=${disp} class="fa fa-circle" aria-hidden="true"></i><span style="font-family:Montserrat;"> Service on progress</span></p>
+					<p style="margin-top:2px;margin-left:27px;font-size:13px;position:relative;"><i style=${disp} class="fa fa-circle" aria-hidden="true"></i><span style="font-family:Montserrat;"> Service on progress</span></p>
 					</div>
 
 					`
@@ -270,9 +270,9 @@
 
 					var newEle =`
 					<div data-aos="fade-up"  data-aos-offset="120"style="width:95%;height:100px;background-color:white;border-radius:3px;border:1px solid #ddd;box-shadow:0px 2px 5px rgba(0,0,0,0.6);margin:12px auto;padding-top:7px;">
-					<span style="color:grey;font-size:13px;margin-left:10px;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
+					<span style="color:grey;font-size:13px;margin-left:20px !important;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
 					<h6 style="margin-left:20px;margin-top:7px;font-family:Montserrat;font-weight:700">${element.service}</h6>
-					<p style="margin-top:-8px;margin-left:27px;font-size:13px;position:relative;"><i style="" class="fa fa-circle" aria-hidden="true"</i><span style="font-family:Montserrat;"> Service on progress</span></p>
+					<p style="margin-top:2px;margin-left:27px;font-size:13px;position:relative;"><i style="" class="fa fa-circle" aria-hidden="true"</i><span style="font-family:Montserrat;"> Service on progress</span></p>
 					<p style="margin-top:-15px;float:right;margin-right:10px;font-family:Montserrat;color:#3fb6c6;font-weight:600;">FEEDBACK</p>
 					</div>
 
