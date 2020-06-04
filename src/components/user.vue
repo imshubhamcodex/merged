@@ -626,14 +626,17 @@ export default {
 																		if(user_new_img != undefined)
 																		{
 																			var task = firebase.storage().ref("userImage/"+this.imageid).put(user_new_img);
-
+																			task.on('state_changed', function complete(){
+																				document.getElementById('data-uploaded').click()
+																			})
 																		}
 																		if(proofDoc != undefined){
 																			var task = firebase.storage().ref("userProof/"+this.proofid).put(proofDoc);
+																			task.on('state_changed', function complete(){
+																				document.getElementById('data-uploaded').click()
+																			})
 																		}
 																		
-
-																		document.getElementById('data-uploaded').click()
 																	}
 																	
 
