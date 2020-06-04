@@ -1,6 +1,6 @@
 <template>
   <div>	
-    <a @click="signOut()"><button type="">Sign out</button></a>
+    <!-- <a @click="signOut()"><button type="">Sign out</button></a> -->
     <button style="display:none;" id="disp_log" type="button" class="btn btn-primary open-m" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
       <div id="modal-box" class="modal-dialog modal-lg" role="document" style="max-width: 700px;">
