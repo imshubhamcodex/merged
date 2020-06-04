@@ -19,7 +19,7 @@
 				<br>
 				<li style="list-style:none;" @click="closeNav()"><router-link style="color:black;" to="/"><p>Home</p></router-link></li>
 				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Scheduled Visits</p></li>
-				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>My Home</p></li>
+				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>My Dashboard</p></li>
 				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>My Service Requests</p></li>
 				<li style="list-style:none;margin-top:14px;"><hr style="border:0.5px solid black;"></li>
 				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>About us</p></li>
