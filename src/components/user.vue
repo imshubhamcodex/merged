@@ -501,7 +501,7 @@ export default {
 				user_id = this.email + this.phone;
 				user_photo = this.imageid;
 
-				if(user_new_img==undefined){
+				if(user_new_img === undefined){
 					user_photo = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg";
 				}
 			}
@@ -597,68 +597,43 @@ export default {
 															if($("#employer-mobile").val()!=="" && regxPhone.test($("#employer-mobile").val())){
 																if($("#employer-email").val()!=="" && regexEmail.test($("#employer-email").val())){
 
-																	if(proofDoc!=undefined && user_new_img!=undefined){
+																	firebase.firestore().collection('userProfile').doc(user_id).set(
+																	{
+
+																		personal,
+																		professional,
+																		contact,
+																		bank
+
+																	},
+																	{
+																		merge: true
+																	})
+
+																	if(proofDoc != undefined && user_new_img != undefined){
 																		var task = firebase.storage().ref("userProof/"+this.proofid).put(proofDoc);
 																		task.on('state_changed',function complete(){
-																			firebase.firestore().collection('userProfile').doc(user_id).set(
-																			{
-
-																				personal,
-																				professional,
-																				contact,
-																				bank
-
-																			},
-																			{
-																				merge: true
-																			}
-
-																			)
-
-
-																		})
-
-																		var task1 = firebase.storage().ref("userImage/"+this.imageid).put(user_new_img)
-																		task1.on('state_changed',function complete(){
-																			document.getElementById('data-uploaded').click()
+																			var task1 = firebase.storage().ref("userImage/"+this.imageid).put(user_new_img)
+																			task1.on('state_changed',function complete(){
+																				document.getElementById('data-uploaded').click()
+																			})
+																			
 																		})
 
 																	}
 																	else{
 
-																		firebase.firestore().collection('userProfile').doc(user_id).set(
-																		{
-
-																			personal,
-																			professional,
-																			contact,
-																			bank
-
-																		},
-																		{
-																			merge: true
-																		}
-
-																		)
-
-																		if(user_new_img!=undefined)
+																		if(user_new_img != undefined)
 																		{
 																			var task = firebase.storage().ref("userImage/"+this.imageid).put(user_new_img);
-																			task.on('state_changed',function complete(){
-
-																				document.getElementById('data-uploaded').click()
-																			})
 
 																		}
-																		else if(proofDoc!=undefined){
+																		if(proofDoc != undefined){
 																			var task = firebase.storage().ref("userProof/"+this.proofid).put(proofDoc);
-																			task.on('state_changed',function complete(){
-																				document.getElementById('data-uploaded').click()
-																			})
 																		}
-																		else{
-																			document.getElementById('data-uploaded').click()
-																		}
+																		
+
+																		document.getElementById('data-uploaded').click()
 																	}
 																	
 
@@ -848,9 +823,9 @@ if(user_profile!=false){
 	})
 }
 
-	if(window.innerWidth > 480){
-		document.getElementsByClassName('user_div_class')[0].style.width = '60%'
-	}
+if(window.innerWidth > 480){
+	document.getElementsByClassName('user_div_class')[0].style.width = '60%'
+}
 
 
 
