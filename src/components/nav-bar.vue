@@ -1,10 +1,10 @@
 <template>
-       <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-light">
+       <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-light" >
           <div class="container">
                   <a class="navbar-brand" href="/index.html">
                       <img style="width:134px" src="../assets/roomlelologo.png" alt="">
                   </a>
-                  <button class="btn btn-primary" >find home</button>
+                  <button class="btn btn-primary" @click="goto" >find home</button>
                   <button class="navbar-toggler text-dark" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                   </button>
@@ -31,7 +31,20 @@ export default {
     return {
       
     }
-  }
+    
+  },
+   methods:{
+    goto:function(){
+           let queryObject = {
+                // type: this.typeinput,
+                location: 'anywhere',
+                type: 'none',
+                // ForWhom: this.forwhomselected,
+            }
+        //   console.log(queryObject);  
+          this.$router.push({name:'result',query:{queryObject}});
+       }
+  },
 }
 </script>
 

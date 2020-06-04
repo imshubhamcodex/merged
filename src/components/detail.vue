@@ -205,7 +205,7 @@
                                         <div style="display:flex;flex-direction:row;flex-wrap: wrap;">
                                             <div style="flex-basis:33%; margin-bottom:20px;"
                                                 v-for="(val,Nearby,index) in property.Nearby" v-show="val!=0&& index < limit_nearby" v-bind:key="index" >
-                                                <img :src="'./img/'+Nearby+'.png'" v-bind:alt="Nearby" style="width:10%">
+                                                <img :src="'./img/'+Nearby+'.png'" v-bind:alt="Nearby" style="width:20px;display:inline">
                                                 <p style="display:inline" v-show="val!=0"> {{val}} {{Nearby}}</p>
                                             </div>
                                             <a href="javascript:void(0)" class="mt-1"

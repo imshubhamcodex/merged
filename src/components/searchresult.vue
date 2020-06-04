@@ -97,7 +97,7 @@
 
     <div
       class="container py-3 mb-1 sticky-top search-box"
-      style="background-color:white;height:150px"
+      style="background-color:white;height:180px"
     >
       <div class="form-row" style="display:flex;padding:0px;">
         <div class="input-group input-group-sm mb-3">
@@ -308,16 +308,8 @@ export default {
       console.log(this.Nearplaces);
     },
     showresult: function() {
-      // console.log(this.checkedProducts);
-      // console.log(this.location);
-      // console.log(this.type);
-      // console.log(this.ForWhom);
-      console.log("near")
-      console.log(this.Nearby)
-      // console.log(this.Nearplaces);
-      // console.log(this.pricerange);
-      // console.log(this.securityDepositRange);
-       console.log("start")
+  
+    
       this.showlist = [];
       this.placelist.forEach(place => {
         if(this.location.length!=0){
@@ -343,18 +335,7 @@ export default {
               return;
             }
           }
-          //  if(this.Nearby.length!=0||this.Nearby!="Anywhere"){  
-          //    let check=false;
-          //     place.nearby.forEach((nearby)=>{
-          //       if(nearby===this.Nearby)
-          //       {
-          //         check=true;
-          //       }
-                  
-          //     })
-          //     if(check==false)
-          //     return;
-          // }
+
 
           if (this.Nearplaces.length != 0) {
             res = !this.Nearplaces.some(
@@ -384,11 +365,7 @@ export default {
           }
         
       });
-      console.log("end")
-      console.log("hey")
-      console.log(this.showlist);
-      console.log("placelist")
-      console.log(this.placelist);
+
     }
   },
   created() {
@@ -402,26 +379,45 @@ export default {
         });
       });
     // this.type = this.$route.query.queryObject.type;
-    if(typeof(this.$route.query.queryObject.location)==="undefined")
+    if(this.$route.query.queryObject.location==="anywhere")
     this.location="none";
     else
     this.location = this.$route.query.queryObject.location;
+
+    this.type = this.$route.query.queryObject.type;
+    console.log(this.location);
+    console.log(this.type);
+    console.log(this.$route.query.queryObject);
     // this.ForWhom = this.$route.query.queryObject.ForWhom;
   },
   mounted() {
+    console.log(this.location);
+    console.log(this.type);
+    console.log(this.$route.query.queryObject);
     db.collection("properties")
       .get()
       .then(res => {
         res.forEach(doc => {
           // console.log(doc.id);
           let val = JSON.parse(JSON.stringify(doc.data()));
-          if(this.location!="none"){
-          if (val.location.toLowerCase() == this.location.toLowerCase()){
-            this.showlist.push(val);
-          }}
+          if(this.location=="none"&&this.type=="none"){
+            this.showlist.push(val);} 
+          else{
+              if(this.location!="none"){
+                if(val.location.toLowerCase()==this.location.toLowerCase())
+                  this.showlist.push(val);
+              }
+              else{
+                if(val.type.toLowerCase()==this.type.toLowerCase())
+                  this.showlist.push(val);
+              }
+
+          } 
+          
           
         });
       });
+      console.log(this.showlist)
 
     db.collection("locations")
       .doc("list")
@@ -436,7 +432,7 @@ export default {
       .then(res => {
         this.RoomAmenities = res.data().amenities;
         this.filters = res.data();
-        console.log(this.filters);
+        // console.log(this.filters);
       });
   }
 };
