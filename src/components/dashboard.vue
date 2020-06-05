@@ -38,7 +38,7 @@
 				<li style="list-style:none;margin-top:14px;"><hr style="border:0.5px solid black;"></li>
 				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>For House Owner</p></li>
 				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>For Corporates</p></li>
-				<li style="list-style:none;margin:30px;margin-left:200px;" @click="signOut()"><router-link style="color:black;" to="/"><button type="" style="font-family:Montserrat;background:black;color:white;padding-top:2px;padding-left:3px;padding-right:3px;width:100px;height:35px;">LOG OUT</button></router-link></li>
+				<li style="list-style:none;margin:30px;margin-left:200px;" @click="signOut()"><button type="" style="font-family:Montserrat;background:black;color:white;padding-top:2px;padding-left:3px;padding-right:3px;width:100px;height:35px;">LOG OUT</button></li>
 			</ul>
 
 		</div>
@@ -182,15 +182,21 @@ export default {
 			this.shownav = false;
 		},
 		signOut() {
-			if(user_profile != false){
+			// if(user_profile != false){
 				var auth2 = gapi.auth2.getAuthInstance();
 				auth2.signOut().then(() => {
 					console.log('User signed out.');
 					user_profile=false;
               	this.loggedin = false; //to hide link to dashboard
           })
-			}
+			// }
 
+			  // set data of user in vuex to use in user.vue
+              store.commit({
+                type: 'change',
+                email: "",
+                phone: ""
+              });
 
 			localStorage.clear();
 			alert("Logged Out")
