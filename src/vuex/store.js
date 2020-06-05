@@ -5,13 +5,17 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state:{
-    email:Math.random().toString(36).substring(7),
-    phone:Math.random().toString(36).substring(7)
+    email:"",
+    phone:"",
+    createAccount:false
   },
   mutations:{
     change(state,payload) {
         state.email = payload.email;
         state.phone = payload.phone;
+      },
+      createAcc(state,val){
+        state.createAccount = val.setVal;
       }
   },
 
