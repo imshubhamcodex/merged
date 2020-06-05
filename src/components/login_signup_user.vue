@@ -40,14 +40,16 @@
       </div>
     </div>
     <div v-show="loggedin" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">
-     <div>
-      <router-link to="/dashboard">
-       <button id="goToDashboard" style="background:none;border:0;outline:0;margin-left:50px;"><i style="font-size:50px; color:blue;" class="fa fa-arrow-circle-right " aria-hidden="true"></i></button>
-     </router-link>
+      <div>
+        <router-link to="/dashboard">
+         <button id="goToDashboard" style="background:none;border:0;outline:0;margin-left:50px;"><i style="font-size:50px; color:blue;" class="fa fa-arrow-circle-right " aria-hidden="true"></i></button>
+       </router-link>
+     </div>
+     <h6 style="margin-top:10px;margin:10px auto">Proceed to Dashboard</h6>
    </div>
-   <h6 style="margin-top:10px;margin:10px auto">Proceed to Dashboard</h6>
+     <router-link to="/"><i style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;color:rgb(60, 183, 198);" class="fa fa-home" aria-hidden="true"></i></router-link>
+
  </div>
-</div>
 </template>
 
 <script>
@@ -82,6 +84,7 @@ export default {
            {
               document.getElementsByClassName('close')[0].click(); //to close modal
               this.loggedin = true;
+              this.$router.push('/dashboard')
             }
             else{
               this.signOut();
@@ -209,33 +212,41 @@ export default {
                    if(res.exists && res.data().registered)
                    {
                     this.loggedin = true; //to show link to dashboard
+                    this.$router.push('/dashboard')
+
                     document.getElementsByClassName('close')[0].click(); //to close modal
                   }else{
                     this.$router.push('/') // load home if user is not registered
                     alert('User not registered')
                   }
 
-                  });
+                });
                 }
                 else{
                   alert('user not exists')
                 }
               }); 
 
-           }).catch(err =>{
-            console.log(err)
-          })
-         },
+            }).catch(err =>{
+              console.log(err)
+            })
+          },
 
 
-         signOut() {
-          var auth2 = gapi.auth2.getAuthInstance();
-          auth2.signOut().then(() => {
-            console.log('User signed out.');
-            window.user_profile=false;
+          signOut() {
+            if(user_profile!=false){
+              var auth2 = gapi.auth2.getAuthInstance();
+              auth2.signOut().then(() => {
+                console.log('User signed out.');
+                window.user_profile=false;
               this.loggedin = false; //to hide link to dashboard
-            });
-        },
+            })
+            }else{
+              localStorage.clear();
+              this.$router.push('/')
+              alert("Logged Out")
+            }
+          },
 
           //UI related stuff
           SignLog(key){
@@ -298,7 +309,7 @@ export default {
 
         } 
         else {
-          localStorage.clear();
+          // localStorage.clear();
           localStorage.setItem('reloaded', '1');
           location.reload();
         }
@@ -310,179 +321,185 @@ export default {
         }
 
 
+        // console.log(store.state.createAccount)
+        if(store.state.createAccount){
+          this.SignLog(0) // to show create account
+        }
+
+    this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar  
 
 
-      }
+  }
 
 
 
 
 
-    }
-    </script>
+}
+</script>
 
-    <style scoped>
-    @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=Montserrat");
-    @import url("../../node_modules/bootstrap/dist/css/bootstrap.min.css");
-    @import url("../../node_modules/bootstrap/dist/css/bootstrap.css");
-    .goToDashboard:active{
-      transform:scale(0.9);
-    }
-    button:active{
-      transition: all ease 0.2s;
-      transform:scale(0.95);
+<style scoped>
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=Montserrat");
+@import url("../../node_modules/bootstrap/dist/css/bootstrap.min.css");
+@import url("../../node_modules/bootstrap/dist/css/bootstrap.css");
+.goToDashboard:active{
+  transform:scale(0.9);
+}
+button:active{
+  transition: all ease 0.2s;
+  transform:scale(0.95);
 
-    }
-    #agree-line{
-      display: none;
-    }
+}
+#agree-line{
+  display: none;
+}
 
 
-    #m-body {
-      display: grid;
-      grid-template-rows: 70px auto;
-      grid-template-columns: 1fr 1fr;
-      margin-left: 40px;
-      margin-right: 0px;
-      margin-top: 0px;
-      grid-column-gap: 20px; }
+#m-body {
+  display: grid;
+  grid-template-rows: 70px auto;
+  grid-template-columns: 1fr 1fr;
+  margin-left: 40px;
+  margin-right: 0px;
+  margin-top: 0px;
+  grid-column-gap: 20px; }
 
-      .m-box2 {
+  .m-box2 {
+    grid-row: 2/3;
+    grid-column: 2/3;
+    width: 100%; 
+  }
+
+  .m-box3 {
+    grid-row: 1/2;
+    grid-column: 1/2;
+    width: 100%;
+    float: left;
+    font-family: Bahnschrift; }
+
+    .m-box4 {
+      grid-row: 1/2;
+      grid-column: 2/3;
+      width: 100%;
+      float: right;
+      font-family: Bahnschrift;
+      align-items: center;
+      margin: auto 0; }
+
+      .m-box1 {
         grid-row: 2/3;
-        grid-column: 2/3;
-        width: 100%; 
-      }
-
-      .m-box3 {
-        grid-row: 1/2;
         grid-column: 1/2;
         width: 100%;
-        float: left;
-        font-family: Bahnschrift; }
+        font-family: Bahnschrift;
+      }
 
-        .m-box4 {
-          grid-row: 1/2;
-          grid-column: 2/3;
-          width: 100%;
-          float: right;
-          font-family: Bahnschrift;
-          align-items: center;
-          margin: auto 0; }
+      .m-box1 ul {
+        margin: 0;
+        padding: 0; 
+      }
+      .m-box1 ul li {
+        list-style: none; 
+      }
+      .m-box1 ul li input {
+        height: 45px;
+        padding-left: 20px;
+        background-color: rgba(220, 220, 220, 0.2);
+        outline: 0px;
+        border: 1px solid #ddd;
+        width: 100%;
+      }
+      .m-box1 ul li input[type="password"] {
+        background-repeat: no-repeat;
+        background-position: 100% 12px; 
+      }
+      .m-box1 ul li h5 {
+        margin-top: 40px;
+        text-align: center;
+      }
+
+      #m-signIn {
+        margin-top: 20px;
+        width: 100%;
+        height: 40px;
+        border-radius: 20px;
+        outline: 0;
+        border: 0;
+        background-color: royalblue;
+        color: white;
+        margin-bottom: 20px; 
+      }
+
+
+      @media (max-width: 480px) {
+        #m-body {
+          display: grid;
+          grid-template-rows: 70px auto;
+          grid-template-columns: 1fr;
+          margin: 0px !important; }
 
           .m-box1 {
-            grid-row: 2/3;
-            grid-column: 1/2;
-            width: 100%;
-            font-family: Bahnschrift;
-          }
+            grid-column: 1/-1; }
 
-          .m-box1 ul {
-            margin: 0;
-            padding: 0; 
-          }
-          .m-box1 ul li {
-            list-style: none; 
-          }
-          .m-box1 ul li input {
-            height: 45px;
-            padding-left: 20px;
-            background-color: rgba(220, 220, 220, 0.2);
-            outline: 0px;
-            border: 1px solid #ddd;
-            width: 100%;
-          }
-          .m-box1 ul li input[type="password"] {
-            background-repeat: no-repeat;
-            background-position: 100% 12px; 
-          }
-          .m-box1 ul li h5 {
-            margin-top: 40px;
-            text-align: center;
-          }
+            .m-box3 {
+              grid-column: 1/-1; }
 
-          #m-signIn {
-            margin-top: 20px;
-            width: 100%;
-            height: 40px;
-            border-radius: 20px;
-            outline: 0;
-            border: 0;
-            background-color: royalblue;
-            color: white;
-            margin-bottom: 20px; 
-          }
+              .m-box2 {
+                display: none; }
 
+                .m-box4 {
+                  display: none; }
 
-          @media (max-width: 480px) {
-            #m-body {
-              display: grid;
-              grid-template-rows: 70px auto;
-              grid-template-columns: 1fr;
-              margin: 0px !important; }
-
-              .m-box1 {
-                grid-column: 1/-1; }
-
-                .m-box3 {
-                  grid-column: 1/-1; }
-
-                  .m-box2 {
-                    display: none; }
-
-                    .m-box4 {
-                      display: none; }
-
-                      #modal-box {
-                       position: absolute;
-                       top:50%;
-                       left:0%;
-                       transform: translate(0%,-50%);
-                       margin-top: 50px;
-                     }
-
-                     #logorsin {
-                      display: block !important;
-                      padding-top: 30px;
-                      text-decoration: underline; }
-
-                      #m-signIn {
-                        width: 50%;
-                        float: left;
-                      }
-
-                      #google-btn{
-                       margin-top:20px !important; 
-                       float: left;
-                       margin-bottom: 10px !important;
-                       text-align: center !important;
-                     }
-                     #or{
-                      margin: 90px auto !important;
-                      text-align: center !important;
-                      margin-bottom: 0px !important;
-                      float: left;
-
-                    }
-                    #forgetP{
-                     margin: 190px auto !important;
-                     margin-bottom: 0px;
-                     text-align: center;
-                   }
-
-                   .m-box1{
-                    max-height: 510px;
-                  }
-
-                  #agree-line{
-                   display: block;
+                  #modal-box {
                    position: absolute;
-                   bottom:10px; 
-                   font-size:13px!important;
-                   font-weight:400;
-                   text-align:center;
+                   top:50%;
+                   left:0%;
+                   transform: translate(0%,-50%);
+                   margin-top: 50px;
                  }
 
+                 #logorsin {
+                  display: block !important;
+                  padding-top: 30px;
+                  text-decoration: underline; }
+
+                  #m-signIn {
+                    width: 50%;
+                    float: left;
+                  }
+
+                  #google-btn{
+                   margin-top:20px !important; 
+                   float: left;
+                   margin-bottom: 10px !important;
+                   text-align: center !important;
+                 }
+                 #or{
+                  margin: 90px auto !important;
+                  text-align: center !important;
+                  margin-bottom: 0px !important;
+                  float: left;
+
+                }
+                #forgetP{
+                 margin: 190px auto !important;
+                 margin-bottom: 0px;
+                 text-align: center;
                }
 
-               </style>
+               .m-box1{
+                max-height: 510px;
+              }
+
+              #agree-line{
+               display: block;
+               position: absolute;
+               bottom:10px; 
+               font-size:13px!important;
+               font-weight:400;
+               text-align:center;
+             }
+
+           }
+
+           </style>
 

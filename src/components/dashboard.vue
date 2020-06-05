@@ -1,23 +1,28 @@
 <template>
 	<div>
-		<div v-show = "shownav" id="navmenu" style="margin-top:0px; font-family:Montserrat; margin-bottom:50px; background:white; width:100%; padding-top:20px;min-height:630px;">
-			<div style="width:100%;height:54px;background:rgb(60, 183, 198);position:relative;">
-				<router-link to="/user">
+		<div v-show = "shownav" id="nav_menu" style="margin-top:0px; font-family:Montserrat; margin-bottom:50px; background:white; width:100%; padding-top:20px;min-height:630px;">
+			<div v-on:click="showLinks()" style="width:100%;height:54px;background:rgb(60, 183, 198);position:relative;">
 					<img v-bind:src="img" style="width:55px;height:55px;margin-top:0px;margin-left:20px;" alt="">
-				</router-link>	
-
 				<div style="position:absolute; top:10%;margin-left:100px;color:white;">
 					<span style="font-size:15px;" > What's up {{ user_name}}</span>
 					<br>
-					<router-link to="/user" style="color:white;"><span>View Profile</span></router-link>	
+					<span><router-link to="/user" style="color:white;">View Profile</router-link></span>	
 				</div>
 
 				<i @click="closeNav()" style="position:absolute; top:50%;left:90%;color:white;transform:translate(0,-50%)" class="fa fa-times" aria-hidden="true"></i>
-
 			</div>
+
+			<div v-if="showlinks" id="nav_links" style="background:rgb(60, 183, 198);padding:20px;color:white;font-family:Montserrat;margin-top:-2px">
+
+				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Links</p></li>
+				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Links</p></li>
+				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Links</p></li>
+			</div>
+
+
 			<ul style="margin:0;padding:0;padding-left:20px;padding-right:20px;">
 				<br>
-				<li style="list-style:none;" @click="closeNav()"><router-link style="color:black;" to="/"><p>Home</p></router-link></li>
+				<li style="list-style:none;"><router-link style="color:black;" to="/"><p>Home</p></router-link></li>
 				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Scheduled Visits</p></li>
 				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>My Dashboard</p></li>
 				<li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>My Service Requests</p></li>
@@ -156,29 +161,42 @@ export default {
 			propertyId:"",
 			uid:"",
 			showbar:true,
-			shownav:false
+			shownav:false,
+			showlinks:false
 		}
 	},
 	methods:{
+		showLinks(){
+			this.showlinks = !this.showlinks;
+		},
 		showNav(){
-			var x = document.getElementById('navmenu');
+			
+			var x = document.getElementById('nav_menu');
 			gsap.from(x,0.5,{opacity:0,ease:Power2.easeInOut,x:50})
-
 			this.showbar = false;
 			this.shownav = true;
+			
 		},
 		closeNav(){
 			this.showbar = true;
 			this.shownav = false;
 		},
 		signOut() {
-          var auth2 = gapi.auth2.getAuthInstance();
-          auth2.signOut().then(() => {
-            console.log('User signed out.');
-            window.user_profile=false;
-              this.loggedin = false; //to hide link to dashboard
-            });
-        },
+			if(user_profile != false){
+				var auth2 = gapi.auth2.getAuthInstance();
+				auth2.signOut().then(() => {
+					console.log('User signed out.');
+					user_profile=false;
+              	this.loggedin = false; //to hide link to dashboard
+          })
+			}
+
+
+			localStorage.clear();
+			alert("Logged Out")
+			this.$router.push("/")
+			
+		},
 		downloadChecklist(){ // always we have to put pdf in database
 			firebase.storage().ref("checklist/"+this.propertyId+".pdf").getDownloadURL().then(url =>{
 				console.log(this.propertyId)
@@ -274,6 +292,8 @@ export default {
 		
 	},
 	created(){
+		this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar  
+
 		if(user_profile!=false){
 			this.uid = user_profile.getId();
 		}else{
