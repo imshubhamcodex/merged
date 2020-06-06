@@ -29,22 +29,22 @@
               <p id="p-1" style="font-family: Bahnschrift; font-size: 18px;color: dimgrey; font-weight: 300;">A perfect solution for the home seeker where we provide <br> room on rent at lowest possible cost. </p>
               <button id="btn-explore" type="button" style="font-family: Bahnschrift;background-color: rgba(0,191,255,0.8);color:white; outline: 0;border:0; width: 100px;height: 40px;border-radius:20px;" onclick="doScrolling('#properties',2000)">Explore</button> 
           </div>
-          <div class="col col-xl-6">
+          <!-- <div class="col col-xl-6"> -->
                     <!-- <label for="validationCustom02" style="font-family: Bahnschrift;margin-bottom:10px;">Location:</label> -->
-                    <div class="input-group bg-dark">
-                    <input @keyup.enter="goto" type="text" class="form-control " id="validationCustom02" placeholder="Location"  list="places" style="font-family: Bahnschrift;color: rgba(0,191,255,0.8);border: solid grey;" autocomplete=off v-model="candidatelocation">
+               <!--      <div class="input-group bg-dark">
+                    <input @keyup="goto" type="text" class="form-control " id="validationCustom02" placeholder="Location"  list="places" style="font-family: Bahnschrift;color: rgba(0,191,255,0.8);border: solid grey;" autocomplete=off v-model="candidatelocation">
                     <div class="input-group-append">
                    <svg class="bi bi-search d-inline" width="2em" height="1em" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg" style="border:solid grey;height:100%;background-color:grey">
                       <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
                       <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
                     </svg>
                     </div>
-                    </div>
-                    <datalist  id="places" style="font-family: Bahnschrift;color: rgba(0,191,255,0.8);" >
+                    </div> -->
+                    <!-- <datalist  id="places" style="font-family: Bahnschrift;color: rgba(0,191,255,0.8);" >
                       
                        <option v-for="place in places" v-bind:key="place">{{place}}</option>
-                    </datalist>
-                </div>
+                    </datalist> -->
+                <!-- </div> -->
                 <hr style="background-color:yellow">
     </div>
 </template>
@@ -56,7 +56,6 @@ export default {
       title:"my vue file",
     candidatelocation:'',
     homeBgImg:'./img/back.png',
-    places:['Durgakund','HG'],
     }
   },
   methods:{
@@ -64,7 +63,6 @@ export default {
            let queryObject = {
                 // type: this.typeinput,
                 location: this.candidatelocation,
-                type: 'none',
                 // ForWhom: this.forwhomselected,
             }
         //   console.log(queryObject);  
@@ -78,11 +76,6 @@ export default {
            this.homeBgImg='./img/back.png';
   },
    mounted(){
-    document.getElementById('home').classList.add('active');
-    document.getElementById('home').style.color = 'white';
-    document.getElementById('search-link').style.color = 'blue';
-    document.getElementById('portal-btn').style.backgroundColor = 'white';
-    document.getElementById('portal-btn').style.color = 'blue';
     window.onresize = () => {
                  console.log(window.innerWidth);
                  console.log(typeof(window.innerWidth));

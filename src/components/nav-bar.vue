@@ -173,13 +173,13 @@ export default {
      alert("Logged Out")
    },
    modifyNav(){
-    if(user_profile!=false){
+    if(user_profile != false){
       this.uid = user_profile.getId();
     }else{
       this.uid = store.state.email+store.state.phone;
     }
 
-    if(user_profile !=false ){  // if logged in via gmail
+    if(user_profile != false ){  // if logged in via gmail
       firebase.firestore().collection('userProfile').doc(user_profile.getId()).get().then(res =>{
         if(res.data().personal.photo != undefined){
           this.img = res.data().personal.photo // get user image 
@@ -193,15 +193,15 @@ export default {
       var uid = store.state.email+store.state.phone;
       if(uid !=="")
       {
-       firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
-        this.user_name = res.data().personal.name
-      })
+         firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
+          this.user_name = res.data().personal.name
+        })
 
-       firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{
-        this.img = url;
-      }).catch(err =>{
-        this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
-      })
+         firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{
+          this.img = url;
+        }).catch(err =>{
+          this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
+        })
 
     }
 
@@ -209,7 +209,7 @@ export default {
 
   this.renderNav = false;
   this.renderNav = true;
-console.log(this.uid)
+  console.log(this.uid);
 }
 
 

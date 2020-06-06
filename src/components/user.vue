@@ -636,6 +636,10 @@ export default {
 																				document.getElementById('data-uploaded').click()
 																			})
 																		}
+
+																		
+																		
+
 																		
 																	}
 																	
