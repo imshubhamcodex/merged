@@ -42,9 +42,9 @@
 					</div> -->
 
 				</div></router-link>
-				<button type="" v-on:click="makePayment()">Pay</button>
+				<button type="" style="display:none" v-on:click="makePayment()">Pay</button>
 
-				<button type="" v-on:click="fetchData()">Fetch</button>
+				<button type="" style="display:none" v-on:click="fetchData()">Fetch</button>
 			</div>
 		</div>
 	</div>
@@ -103,8 +103,8 @@ export default {
 
 					<span style="color:black; font-size:13px; width:100%; height:24px; background:rgb(211, 211, 211); display:block;box-shadow:0px 2px 2px rgba(0,0,0,0.7);"><span style="margin-left:12px;font-family:Montserrat;font-weight:600;font-size:15px;">Invoice No.: </span><span style="color:#3fb6c6;font-family:Montserrat;font-weight:600;font-size:15px;">${element.vn}</span></span> 
 					<h6 style="margin-left:40px;margin-top:14px;font-family:Montserrat;font-weight:700"><i class="fa fa-circle-o" aria-hidden="true" style="position:absolute;margin-left:-16px;color:#3fb6c6;background-color:white;"></i>Rent ${element.month} <span style="float:right;margin-right:10px;"> ₹ ${element.amount}</span></h6>
-					<p style="margin-top:-7px;margin-left:40px;font-size:13px;position:relative;"><span style="font-family:Montserrat;"> Paid on ${element.date}</span></p>
-					<hr style="margin-top:13px;margin-bottom:0;">
+					<p style="margin-top:0px;margin-left:40px;font-size:13px;position:relative;"><span style="font-family:Montserrat;"> Paid on ${element.date}</span></p>
+					<hr style="margin-top:0px !important;margin-bottom:0;">
 					<p style="margin-left:15px;font-family:Montserrat;font-weight:600;font-size:15px;">Total: ₹ ${element.total}<span style="float:right;margin-right:10px;">VIEW INVOICE</span></p>
 					</div>
 					`
