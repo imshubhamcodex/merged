@@ -45,11 +45,11 @@
 
     <div v-if = "renderNav" v-show = "shownav" id="navmenu" style="margin-top:0px; font-family:Montserrat; margin-bottom:50px; background:white; width:100%; padding-top:20px;min-height:630px;">
       <div v-on:click="showLinks()" style="width:100%;height:54px;background:rgb(60, 183, 198);position:relative;">
-          <img v-bind:src="img" style="width:55px;height:55px;margin-top:0px;margin-left:20px;" alt="">
+        <img v-bind:src="img" style="width:55px;height:55px;margin-top:0px;margin-left:20px;" alt="">
         <div style="position:absolute; top:10%;margin-left:100px;color:white;">
           <span style="font-size:15px;" > What's up {{ user_name}}</span>
           <br>
-          <router-link to="/user" style="color:white;"><span>View Profile</span></router-link>  
+          <router-link to="/user" style="color:white;"><span id="viewProfile" >View Profile</span></router-link>  
         </div>
 
         <i @click="closeNav()" style="position:absolute; top:50%;left:90%;color:white;transform:translate(0,-50%)" class="fa fa-times" aria-hidden="true"></i>
@@ -66,8 +66,8 @@
         <br>
         <li style="list-style:none;" @click="closeNav()"><router-link style="color:black;" to="/"><p>Home</p></router-link></li>
         <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Scheduled Visits</p></li>
-        <li style="list-style:none;margin-top:14px;" ><router-link style="color:black;" to="/dashboard"><p>My Dashboard</p></router-link></li></li>
-        <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>My Service Requests</p></li>
+        <li id="myDash" style="list-style:none;margin-top:14px;" ><router-link style="color:black;" to="/dashboard"><p>My Dashboard</p></router-link></li></li>
+        <li id="serviceReq" style="list-style:none;margin-top:14px;" @click="closeNav()"><p>My Service Requests</p></li>
         <li style="list-style:none;margin-top:14px;"><hr style="border:0.5px solid black;"></li>
         <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>About us</p></li>
         <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Join our Family</p></li>
@@ -112,17 +112,17 @@ export default {
   methods:{
     goToLog(){
       // set data of login  in vuex to use in user.vue
-              store.commit({
-                type: 'createAcc',
-                setVal: true
-              })
+      store.commit({
+        type: 'createAcc',
+        setVal: true
+      })
     },
     goToSign(){
       // set data of login  in vuex to use in user.vue
-              store.commit({
-                type: 'createAcc',
-                setVal: false
-              })
+      store.commit({
+        type: 'createAcc',
+        setVal: false
+      })
     },
     showLinks(){
       this.showlinks = !this.showlinks;
@@ -186,22 +186,31 @@ export default {
           this.user_name = res.data().personal.name       }
 
         }).catch(err =>{
-          console.log(err)
+          document.getElementById('myDash').style.display = 'none';
+          document.getElementById('serviceReq').style.display = 'none';
+          document.getElementById('viewProfile').style.display = 'none';
+          this.img = user_profile.getImageUrl();
+          var splitStr = user_profile.getName().toString().split(" ");
+          this.user_name = splitStr[0]
         })
-    }else{ // error on new registration
-
+    }else{ 
       var uid = store.state.email+store.state.phone;
       if(uid !=="")
       {
-         firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
-          this.user_name = res.data().personal.name
-        })
+       firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
+        this.user_name = res.data().personal.name
+      }).catch(err =>{
+       document.getElementById('myDash').style.display = 'none';
+       document.getElementById('serviceReq').style.display = 'none';
+       document.getElementById('viewProfile').style.display = 'none';
+        this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
+     })
 
-         firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{
-          this.img = url;
-        }).catch(err =>{
-          this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
-        })
+      firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{
+        this.img = url;
+      }).catch(err =>{
+        this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
+      })
 
     }
 
@@ -209,8 +218,7 @@ export default {
 
   this.renderNav = false;
   this.renderNav = true;
-  console.log(this.uid);
-  console.log(user_profile)
+
 }
 
 
@@ -238,17 +246,28 @@ mounted(){
       {
        firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
         this.user_name = res.data().personal.name
+      }).catch(err =>{
+
+        document.getElementById('myDash').style.display = 'none';
+        document.getElementById('serviceReq').style.display = 'none';
+        document.getElementById('viewProfile').style.display = 'none';
+
       })
 
-       firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{
+      firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{
         this.img = url;
       }).catch(err =>{
-        this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
+        this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg";
+        document.getElementById('myDash').style.display = 'none';
+        document.getElementById('serviceReq').style.display = 'none';
+        document.getElementById('viewProfile').style.display = 'none';
       })
 
     }
 
   }
+
+
 
 
   this.modifyNav();

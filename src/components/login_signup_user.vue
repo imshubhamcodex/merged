@@ -78,7 +78,6 @@ export default {
     if(user_profile!=false){
       await db.collection('userProfile').doc(user_profile.getId()).get().then((docSnapshot) => {
         if(docSnapshot.exists) {
-          console.log(' User all ready exists');
           db.collection('registeredUser').doc(user_profile.getId()).get().then( res =>{
            if(res.exists && res.data().registered)
            {
@@ -87,7 +86,8 @@ export default {
               this.$router.push('/dashboard')
             }
             else{
-              this.signOut();
+              document.getElementsByClassName('close')[0].click(); //to close modal
+               this.$router.push('/');
             }
           })
         }
@@ -238,7 +238,7 @@ export default {
               var auth2 = gapi.auth2.getAuthInstance();
               auth2.signOut().then(() => {
                 console.log('User signed out.');
-                window.user_profile=false;
+                user_profile=false;
               this.loggedin = false; //to hide link to dashboard
             })
             }else{
