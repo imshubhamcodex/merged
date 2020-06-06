@@ -194,16 +194,15 @@ export default {
   },
   mounted(){
     this.$root.$children[0].$children[0].$el.style.display="block"; 
-    user_profile = false;
   },
   created(){
     db.collection('properties').get().then((res) =>{
-        
-        res.docs.forEach( (doc)=> {
+        res.docs.forEach((doc)=> {
           this.propertyInDemand.push(doc.data());
              
         })
-        })
+      });
+   
   }
 }
 </script>

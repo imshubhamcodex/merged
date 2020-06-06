@@ -210,6 +210,7 @@ export default {
   this.renderNav = false;
   this.renderNav = true;
   console.log(this.uid);
+  console.log(user_profile)
 }
 
 

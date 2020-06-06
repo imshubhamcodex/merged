@@ -319,7 +319,7 @@ export default {
 
 @import url('../../node_modules/@glidejs/glide/dist/css/glide.theme.min.css');
 @import url('../../node_modules/@glidejs/glide/dist/css/glide.core.min.css');
-@import url('http://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url("../../node_modules/bootstrap/dist/css/bootstrap.min.css");
 @import url("../../node_modules/bootstrap/dist/css/bootstrap.css");
 
