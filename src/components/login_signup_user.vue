@@ -137,7 +137,8 @@ export default {
               db.collection('userProfile').doc(email+phone).set({
                 email:email,
                 password:password,
-                phone:phone
+                phone:phone,
+                 name:name
               })
 
               
