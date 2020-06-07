@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="serachResult">
     <!-- //filter-box end//// -->
     <div
       class="modal fade"
