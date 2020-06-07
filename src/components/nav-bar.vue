@@ -162,7 +162,15 @@ export default {
       this.showbar = true;
       this.shownav = false;
       this.show_nav = false;
+      
+       if(document.getElementById('homeComp')!=null)
       document.getElementById('homeComp').style.display = 'block'
+
+      else if(document.getElementById('serachResult')!=null)
+      document.getElementById('serachResult').style.display = 'block'
+
+      else if(document.getElementById('propReg')!=null)
+      document.getElementById('propReg').style.display = 'block'
 
     },
     signOut() {
