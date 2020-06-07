@@ -131,7 +131,15 @@ export default {
 
       this.modifyNav();
 
-      //document.getElementById('homeComp').style.display = 'none'
+      if(document.getElementById('homeComp')!=null)
+      document.getElementById('homeComp').style.display = 'none'
+
+      else if(document.getElementById('serachResult')!=null)
+      document.getElementById('serachResult').style.display = 'none'
+
+      else if(document.getElementById('propReg')!=null)
+      document.getElementById('propReg').style.display = 'none'
+        
 
       if(this.uid !== ""){
         this.shownav = true;
