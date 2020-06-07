@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="propReg">
 <div class="card text-center  mx-auto mt-5" style="width:80%;border-radius:25px;box-shadow: 7px 9px 30px -22px rgb(0, 0, 0)">
   <div class="card-header ">
     Become Our partner
