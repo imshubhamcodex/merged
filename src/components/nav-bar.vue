@@ -110,7 +110,7 @@ export default {
     }
   },
   methods:{
-   goto:function(){
+    goto:function(){
            let queryObject = {
                 location: 'anywhere',
                 type: 'none',
@@ -119,6 +119,7 @@ export default {
          
           this.$router.push({name:'result',query:{queryObject}});
        },
+
     goToLog(){
       // set data of login  in vuex to use in user.vue
       store.commit({

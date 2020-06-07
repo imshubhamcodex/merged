@@ -10,7 +10,7 @@
   </div>
   <div class="form-group text-left mx-3">
     <label for="formGroupExampleInput2">Mobile Number</label>
-    <input type="number" class="form-control" id="formGroupExampleInput2" placeholder="+91" v-model="phoneNumber">
+    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="+91" v-model="phoneNumber">
   </div>
   <div class="form-group text-left mx-3">
     <label for="formGroupExampleInput3">Location</label>
@@ -34,7 +34,7 @@
   </ul>
   <button type = "submit" class="btn btn-primary mx-auto w-30 mb-6" @click="requestcall">Request a call</button>
 </div>
- <p class="text-center">By sharing your detail you agree to aur privacy policy</p>
+ <p class="text-center mt-5">By sharing your detail you agree to aur privacy policy</p>
 
   <div class="row p-5">
     <div class="col-xl-3 col-6 ">
@@ -135,13 +135,21 @@ export default {
   },
   methods:{
     requestcall(){
+    
+  
+   console.log(this.phoneNumber.length);
+    if(this.name.length==0||this.location.length==0||this.phoneNumber.length!=10||this.housetype.length==0)
+    {
+      alert("Detail are incorrect");
+      return
+    }  
     firebase.firestore().collection('newPropertyRequest').doc(this.name).set({
 
 					name : this.name,
 					location: this.location,
           phoneNumber: this.phoneNumber,
           propertyType:this.housetype
-					// requestedDate: firebase.firestore.Timestamp.fromDate(new Date())
+					
          
         }).catch(function(error){
           console.log("nhi hua")

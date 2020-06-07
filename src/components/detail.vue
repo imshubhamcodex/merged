@@ -92,7 +92,7 @@
                                                         <h4 class="alert alert-primary">Rent Detail</h4>
                                                 </div>
                                                
-                                          <div v-if="property.type=='Shared rooms'">
+                                          <div v-if="property.type=='Shared Rooms'">
                                             <div class="list-group list-group-horizontal-sm text-center mb-1"  style="justify-content: center;display: flex; flex-direction: row;" id="list-tab" role="tablist">
                                             <a v-for="(val,key,ind) in property.rentDetails"  v-bind:key="ind" class="list-group-item  mx-1 text-dark" :class="{'active':ind==0}" :id="'list-home-'+ind" data-toggle="list" :href="'#list-'+ind" role="tab" aria-controls="home" style="border:solid black;">{{key}}</a>
                                       
