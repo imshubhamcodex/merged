@@ -79,11 +79,6 @@ export default {
            this.homeBgImg='./img/back.png';
   },
    mounted(){
-    document.getElementById('home').classList.add('active');
-    document.getElementById('home').style.color = 'white';
-    document.getElementById('search-link').style.color = 'blue';
-    document.getElementById('portal-btn').style.backgroundColor = 'white';
-    document.getElementById('portal-btn').style.color = 'blue';
     window.onresize = () => {
                  console.log(window.innerWidth);
                  console.log(typeof(window.innerWidth));
