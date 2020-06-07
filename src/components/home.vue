@@ -232,6 +232,7 @@ export default {
     }
   },
   mounted(){
+          this.$root.$children[0].$children[0].$el.style.display="block"; // to show nav bar
     window.onresize = () => {
                  
                  if(window.innerWidth<=480){
