@@ -19,6 +19,12 @@ Vue.use(checkbox)
 Vue.use(VueCarousel);
 window.user_profile = false;
 window.invoiceNumber = "unknown";
+import Vuesax from 'vuesax'
+
+import 'vuesax/dist/vuesax.css' //Vuesax styles
+Vue.use(Vuesax, {
+
+})
 
 
 
