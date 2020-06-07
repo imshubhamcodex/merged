@@ -96,7 +96,7 @@
 			requestExit(){
 
 				firebase.firestore().collection('exitRequest').doc(this.uid).set({
-
+					exit : false,
 					withIn : this.days,
 					propertyId: this.propertyId,
 					uid: this.uid,
