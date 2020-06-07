@@ -100,7 +100,8 @@ export default {
               password: "sign in via gmail",
               phone: "sign via gmail",
               name: user_profile.getName(),
-              image: user_profile.getImageUrl()
+              image: user_profile.getImageUrl(),
+               email: user_profile.getEmail()
             },
             {
               merge:true
