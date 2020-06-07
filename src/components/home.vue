@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="homeComp">
     <content-page></content-page>
     <!-- <Filterr></Filterr>
     <service></service>
