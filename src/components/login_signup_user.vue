@@ -99,7 +99,8 @@ export default {
             {
               password: "sign in via gmail",
               phone: "sign via gmail",
-              name: user_profile.getName()
+              name: user_profile.getName(),
+              image: user_profile.getImageUrl();
             },
             {
               merge:true
