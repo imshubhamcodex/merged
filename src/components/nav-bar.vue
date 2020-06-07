@@ -131,7 +131,7 @@ export default {
 
       this.modifyNav();
 
-      document.getElementById('homeComp').style.display = 'none'
+      //document.getElementById('homeComp').style.display = 'none'
 
       if(this.uid !== ""){
         this.shownav = true;
