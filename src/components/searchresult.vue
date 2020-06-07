@@ -40,7 +40,7 @@
             <hr />
             <p>Amenity</p>
             <div class="btn-group btn-group-toggle" data-toggle="buttons" style="flex-wrap:wrap">
-              <checkbox
+              <checkbox type="checkbox"
                 style="width:fit-content;margin-top: 0.5rem;margin-right: 1rem;"
                 v-model="checkedProducts"
                 v-for="(amenity,ind) in filters.amenities"
@@ -53,7 +53,7 @@
             <hr />
             <p>Nearby</p>
             <div class="btn-group btn-group-toggle" data-toggle="buttons" style="flex-wrap:wrap">
-              <checkbox
+              <checkbox type="checkbox"
                 style="width:fit-content;margin-top: 0.5rem;margin-right: 1rem;"
                 v-model="Nearplaces"
                 v-for="(Nearby,ind) in filters.Nearby"
@@ -61,6 +61,7 @@
                 :value="Nearby"
                 color="#0314de;"
               >{{Nearby}}</checkbox>
+             
             </div>
             <hr />
 
@@ -72,17 +73,22 @@
                 :for="'option1'+ind"
                 v-for="(securityDeposit,ind) in filters.securityDeposit"
                 v-bind:key="ind"
+               
               >
                 <input
                   type="radio"
-                  name="options"
+                  name="optionssd"
                   v-bind:id="'option1'+ind"
                   autocomplete="off"
                   v-model="securityDepositRange"
-                  :value="securityDeposit"
+                :value="securityDeposit"
+                   @click="inp1($event)"
+                  
                 />
                 {{securityDeposit}}
               </label>
+              
+              
             </div>
             <hr />
           </div>
@@ -97,7 +103,7 @@
 
     <div
       class="container py-3 mb-1 sticky-top search-box"
-      style="background-color:white;height:150px"
+      style="background-color:white;height:180px"
     >
       <div class="form-row" style="display:flex;padding:0px;">
         <div class="input-group input-group-sm mb-3">
@@ -117,6 +123,17 @@
           <datalist id="places">
             <option v-for="(place,ind) in filters.location" v-bind:key="ind">{{place}}</option>
           </datalist>
+           <!-- <div class="con-select-example">
+           <vs-select
+      autocomplete
+    icon=""
+      class="selectExample"
+      @keyup.enter="showresult"
+      v-model="location"
+      >
+      <vs-select-item :key="ind" :value="place" :text="place" v-for="(place,ind) in filters.location" icon=""  :click="showresult" />
+    </vs-select>
+    </div> -->
         </div>
         <div class="form-row" style="position: relative;bottom: 27px;width:100%">
           <div class="col-5">
@@ -131,7 +148,7 @@
                 style="border:none;display:inline;padding:0px!important"
                 
               >
-                 
+                 <option disabled selected>type</option>
                 <option v-for="(houseType,ind) in filters.type" v-bind:key="ind" >{{houseType}}</option>
               </select>
             </div>
@@ -147,6 +164,7 @@
                 style="border:none;display:inline;width:100%;padding:0px!important"
                 v-model="Nearby"
                 placeholder="nearby"
+
               >
                <option disabled selected>Nearby</option>
                <option > Anywhere</option>
@@ -166,6 +184,7 @@
                 @click="showresult"
                 style="border:none;padding:0px!important;"
               >
+              <option disabled selected>for Whom</option>
                 <option v-for="(forWhom,ind) in filters.forWhom" v-bind:key="ind">{{forWhom}}</option>
               </select>
             </div>
@@ -243,12 +262,12 @@
                       <hr class="mb-0" />
 
                       <div class="text-right">
-                        <router-link v-bind:to="'/detail'+ place.id" style="text-decoration:none">
+                        <a v-bind:href="'/detail'+ place.id" style="text-decoration:none">
                           <button
-                            class="btn btn-success mb-1 mr-1 px-0"
+                            class="btn btn-success mb-1 mr-1 px-0 align-text-bottom"
                             style="font-size:small"
                           >Book your Visit</button>
-                        </router-link>
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -259,8 +278,8 @@
 
           <!-- //// -->
 
-          <div v-show="showlist.length==0">
-            <h1>Sorry our service is not available here</h1>
+          <div v-show="showlist.length==0" class="mt-5">
+            <h1 style="font-size:xx-large"> Sorry our service is not available here</h1>
           </div>
           <!-- end property card -->
         </div>
@@ -281,7 +300,7 @@ export default {
       availablelocation: [],
       location: "",
       type: "",
-      ForWhom: "",
+      ForWhom: "for Whom",
       pricerange: 0,
       SecurityDeposit: 0,
       placelist: [],
@@ -291,8 +310,8 @@ export default {
       RoomAmenities: [],
       Nearplaces: [],
       filters: {},
-      Nearby: '',
-      securityDepositRange: 0,
+      Nearby: 'Nearby',
+      securityDepositRange:'',
     
     };
   },
@@ -302,26 +321,22 @@ export default {
       console.log(optionText);
       this.pricerange = optionText;
     },
+    inp1: function() {
+      var optionText = event.target.value;
+      console.log(optionText);
+      this.securityDepositRange = optionText;
+    },
    
     readinp: function() {
-      console.log(this.checkedProducts);
-      console.log(this.Nearplaces);
+      console.log(this.securityDepositRange);
+      
     },
     showresult: function() {
-      // console.log(this.checkedProducts);
-      // console.log(this.location);
-      // console.log(this.type);
-      // console.log(this.ForWhom);
-      console.log("near")
-      console.log(this.Nearby)
-      // console.log(this.Nearplaces);
-      // console.log(this.pricerange);
-      // console.log(this.securityDepositRange);
-       console.log("start")
       this.showlist = [];
+      console.log(this.location)
       this.placelist.forEach(place => {
         if(this.location.length!=0){
-          if(this.location.toLowerCase()!=place.location.toLowerCase())
+          if(this.location.toLowerCase()!=place.location.toLowerCase()&&this.location!='none')
           {return;}
         }
         if(this.type.length!=0){
@@ -329,11 +344,11 @@ export default {
           { 
             return;}
         }
-        if(this.ForWhom.length!=0){
+        if(this.ForWhom.length!=0&&this.ForWhom!="for Whom"){
           if(this.ForWhom.toLowerCase()!=place.forWhom.toLowerCase())
           {return;}
         }  
-
+      
           let res;
           if (this.checkedProducts.length != 0) {
             res = !this.checkedProducts.some(
@@ -343,26 +358,20 @@ export default {
               return;
             }
           }
-          //  if(this.Nearby.length!=0||this.Nearby!="Anywhere"){  
-          //    let check=false;
-          //     place.nearby.forEach((nearby)=>{
-          //       if(nearby===this.Nearby)
-          //       {
-          //         check=true;
-          //       }
-                  
-          //     })
-          //     if(check==false)
-          //     return;
-          // }
+          if(this.Nearby.length!=0&&this.Nearby!='Anywhere'&&this.Nearby!="Nearby"){
+            var n = place.nearby.includes(this.Nearby);
+            if(n==false)
+              return;
+          }
 
-          if (this.Nearplaces.length != 0) {
+          if (this.Nearplaces.length != 0&&this.Nearby!='Anywhere') {
             res = !this.Nearplaces.some(
               val => place.nearby.indexOf(val) === -1
             );
             if (!res) return;
           }
-
+       
+          
           if (this.pricerange == 1 && place.priceArray[0] > 5000) {
          
             return;
@@ -374,24 +383,41 @@ export default {
          
             return;
           }
-   
-
+          
+          
+          console.log(this.securityDepositRange)
           if (this.securityDepositRange == 0) this.showlist.push(place);
           else if (
             place.minSecurityDeposit <= this.securityDepositRange
           ) {
-              this.showlist.push(place)
+            this.showlist.push(place)
+              
           }
         
       });
-      console.log("end")
-      console.log("hey")
-      console.log(this.showlist);
-      console.log("placelist")
-      console.log(this.placelist);
+
     }
   },
   created() {
+      db.collection("locations")
+      .doc("list")
+      .get()
+      .then(res => {
+        this.availablelocation = res.data().names;
+        //  console.log(this.availablelocation)
+      });
+      
+    db.collection("filters")
+      .doc("filters")
+      .get()
+      .then(res => {
+        this.RoomAmenities = res.data().amenities;
+        this.filters = res.data();
+        console.log(this.filters);
+      });
+
+      /////////////////////////////////////////////////////////////////////
+
     db.collection("properties")
       .get()
       .then(res => {
@@ -402,42 +428,51 @@ export default {
         });
       });
     // this.type = this.$route.query.queryObject.type;
-    if(typeof(this.$route.query.queryObject.location)==="undefined")
+    if(this.$route.query.queryObject.location==="anywhere")
     this.location="none";
     else
     this.location = this.$route.query.queryObject.location;
-    // this.ForWhom = this.$route.query.queryObject.ForWhom;
-  },
-  mounted() {
-    db.collection("properties")
+
+    this.type = this.$route.query.queryObject.type;
+    if(typeof (this.type)=='undefined')
+    {this.type = '';}
+    if(typeof (this.location)=='undefined')
+    {
+      this.location = '';
+    }
+    ////////////////////////////////////////product list////////////
+
+     db.collection("properties")
       .get()
       .then(res => {
         res.forEach(doc => {
           // console.log(doc.id);
           let val = JSON.parse(JSON.stringify(doc.data()));
-          if(this.location!="none"){
-          if (val.location.toLowerCase() == this.location.toLowerCase()){
-            this.showlist.push(val);
-          }}
-          
+          if(this.location=="none"&&this.type=="none"||(this.location.length+this.type.length==0)){
+            this.showlist.push(val);} 
+          else{
+              if(this.location!="none"){
+                if(val.location.toLowerCase()==this.location.toLowerCase())
+                  this.showlist.push(val);
+              }
+              else{
+                if(val.type.toLowerCase()==this.type.toLowerCase())
+                  this.showlist.push(val);
+              }
+
+          } 
         });
       });
 
-    db.collection("locations")
-      .doc("list")
-      .get()
-      .then(res => {
-        this.availablelocation = res.data().names;
-        //  console.log(this.availablelocation)
-      });
-    db.collection("filters")
-      .doc("filters")
-      .get()
-      .then(res => {
-        this.RoomAmenities = res.data().amenities;
-        this.filters = res.data();
-        console.log(this.filters);
-      });
+
+
+  },
+  mounted() {
+  
+  
+      console.log(this.showlist)
+
+  
   }
 };
 </script>

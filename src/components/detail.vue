@@ -29,6 +29,7 @@
                     <div v-else class="text-success">Congratulation your Visit has been booked Our agent will contact
                         you soon </div>
                 </div>
+                <!-- <div id="recaptcha-container"></div> -->
                 <div v-show="!validation" class="modal-footer"
                     style="display:flex!important;flex-direction:column!important;">
                     <p class="text-info">Check the box first for OTP</p>
@@ -84,89 +85,47 @@
                                         available only for {{property.forWhom}} </h6>
                                     <hr>
 
-                                    <!-- <div style="display:flex;flex-direction:row;  justify-content: center;">
-
-                                        <div
-                                            style="display:flex;flex-direction:column; margin-right:auto;margin-left:8px;">
-                                            <div style="display:flex;flex-direction:column;">-->
+                                <!-- /////////////Rent Detail//////////// -->
                                                 <div
                                                     style="display:flex;flex-direction:row;justify-content:space-evenly">
-                                                    <!-- <img src="../assets/rupees.png" style="width:5%;"><span
-                                                        class="text-success ">Room type: </span> -->
+                                                    
                                                         <h4 class="alert alert-primary">Rent Detail</h4>
                                                 </div>
-                                                <!-- 
-                                                <table class="table table-striped" style="margin-left:5px"
-                                                    v-show="property.type=='Shared Rooms'">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col" v-for="(val,key1,index) in property.rentDetails"  v-bind:key="index">
-                                                                {{key1}}</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <th scope="row" class='text-info'>Security Deposit</th>
-                                                            <td v-for="(val,key1,index) in property.rentDetails" v-bind:key="index">{{val[0]}}
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row" class='text-success'>Rent</th>
-                                                            <td v-for="(val,key1,index) in property.rentDetails" v-bind:key="index">{{val[1]}}
-                                                            </td>
-
-                                                        </tr>
-
-                                                    </tbody>
-                                                </table>
-                                              
-                                            </div>
-                                            <div style="display:flex;flex-direction:row;">
-                                                <span class="text-info" style="margin-right:10px"
-                                                    v-show="property.type!='Shared Rooms'">Security Deposit: </span>
-                                                <p style="margin-left:auto" v-show="property.type!='Shared Rooms'">
-                                                    ₹{{property.securityDeposit}}</p>
-
-                                            </div>
-                                            <p class='text-danger'>(Security Deposit is fully refundable after the
-                                                property is vaccated in original condition)</p>
-                                        </div>
-                                    </div> -->
-                                   
+                                               
+                                          <div v-if="property.type=='Shared rooms'">
                                             <div class="list-group list-group-horizontal-sm text-center mb-1"  style="justify-content: center;display: flex; flex-direction: row;" id="list-tab" role="tablist">
-                                            <a class="list-group-item  active mx-1 text-dark" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home" style="border:solid black;">2-sharing</a>
-
-                                            <a class="list-group-item mx-1 text-dark" style="border:solid black;" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">3-sharing</a>
-                                          
+                                            <a v-for="(val,key,ind) in property.rentDetails"  v-bind:key="ind" class="list-group-item  mx-1 text-dark" :class="{'active':ind==0}" :id="'list-home-'+ind" data-toggle="list" :href="'#list-'+ind" role="tab" aria-controls="home" style="border:solid black;">{{key}}</a>
+                                      
                                             </div >
                                         
                                         
                                             <div class="tab-content" id="nav-tabContent">
-                                             <div class="tab-pane fade active" id="list-home" role="tabpanel" aria-labelledby="list-home-list" style="background-color:white!important">
+                                             <div  v-for="(val,key,ind) in property.rentDetails"  v-bind:key="ind" class="tab-pane fade " :class="{'active':ind==0}" :id="'list-'+ind" role="tabpanel" :aria-labelledby="'list-home-'+ind" style="background-color:white!important">
                                                <div class="" style="display:flex;justify-content: space-between;">
-                                                   <span class="text-info" style="font-weight:bold" > Monthly rent: </span><span class="text-dark"  style="font-weight:bold" >₹ 3000 only</span>
+                                                   <span class="text-info" style="font-weight:bold" > Monthly rent: </span><span class="text-dark"  style="font-weight:bold" >Rs {{val[0]}} only </span>
                                                </div>
                                             <div class="" style="display:flex;justify-content: space-between;">
-                                                   <span class="text-info"  style="font-weight:bold" >Security Deposit : </span><span class="text-dark"   style="font-weight:bold" >2 Month rent</span>
+                                                   <span class="text-info"  style="font-weight:bold" >Security Deposit : </span><span class="text-dark"   style="font-weight:bold" >{{val[1]}}</span>
                                                </div>
                                                    <p class="text-secondary">(Fully Refundable if vacated in original condition)</p>
                                             </div>
-                                            <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list" style="background-color:white!important">
+                                         
+                                            </div> 
+                                            </div>
+                                            <div v-else>
+                                                 
+                                             <div  v-for="(val,key,ind) in property.rentDetails"  v-bind:key="ind"  style="background-color:white!important">
                                                <div class="" style="display:flex;justify-content: space-between;">
-                                                   <span class="text-info" style="font-weight:bold" > Monthly rent: </span><span class="text-dark"  style="font-weight:bold" >₹ 1000 only</span>
+                                                   <span class="text-info" style="font-weight:bold" > Monthly rent: </span><span class="text-dark"  style="font-weight:bold" >Rs {{val[0]}} only </span>
                                                </div>
                                             <div class="" style="display:flex;justify-content: space-between;">
-                                                   <span class="text-info"  style="font-weight:bold" >Security Deposit : </span><span class="text-dark"   style="font-weight:bold" >1 Month rent</span>
+                                                   <span class="text-info"  style="font-weight:bold" >Security Deposit : </span><span class="text-dark"   style="font-weight:bold" >{{val[1]}}</span>
                                                </div>
                                                    <p class="text-secondary">(Fully Refundable if vacated in original condition)</p>
                                             </div>
                                             </div>
-                                          
-                                          
-                                       
-                                     
+
+                                            <!-- /////Rent -detail-end//// -->
                                     <hr>
                                     <div>
                                         <span style="font-size:2.0rem;color:red">House Features</span>
@@ -195,17 +154,29 @@
 
                                     </div>
                                     <hr>
-                                    <div v-for="(val,key,ind) in property.OtherCharges" v-bind:key="ind">
-                                        <p style="font-weight:bold">{{key}} : {{val[0]}}  <a  data-toggle="collapse" v-bind:href="'#charge'+ind" role="button" aria-expanded="false" v-bind:aria-controls="'charge'+ind"><i class="fa fa-chevron-down" aria-hidden="true"></i></a></p>
-                                        <p v-bind:id="'charge'+ind">{{val[1]}}</p>
-                                    </div>
+                                   
+                                    <template lang="html">
+                                        <div v-for="(val,key,ind) in property.OtherCharges" v-bind:key="ind">
+                                            <vs-collapse >
+                                            <vs-collapse-item  icon-arrow="">
+                                            <div slot="header" style="font-weight:bold">
+                                               {{key}} : {{val[0]}} 
+                                               <i class="fa fa-chevron-down" ></i>
+                                            </div>
+                                            {{val[1]}}
+                                            </vs-collapse-item>
+                                            </vs-collapse>
+                                            
+                                        </div>
+                                        </template>
+                                    
                                      <hr>
                                     <div>
                                         <span style="font-size:2.0rem;color:red">Nearby</span>
                                         <div style="display:flex;flex-direction:row;flex-wrap: wrap;">
                                             <div style="flex-basis:33%; margin-bottom:20px;"
                                                 v-for="(val,Nearby,index) in property.Nearby" v-show="val!=0&& index < limit_nearby" v-bind:key="index" >
-                                                <img :src="'./img/'+Nearby+'.png'" v-bind:alt="Nearby" style="width:10%">
+                                                <img :src="'./img/'+Nearby+'.png'" alt="" style="width:20px;display:inline">
                                                 <p style="display:inline" v-show="val!=0"> {{val}} {{Nearby}}</p>
                                             </div>
                                             <a href="javascript:void(0)" class="mt-1"
@@ -260,14 +231,14 @@
                                         </li>
                                     </ul>
                                     </p>
-                                    <!-- <a style="font-weight:bold">More about Property</a> -->
+                                    
                                      <a style="font-weight:bold" data-toggle="collapse" href="#propertyDescription" role="button" aria-expanded="true" aria-controls="propertyDescription">More About Property</a>
                                     <p id="propertyDescription"> {{property.description}}</p>
                                     <hr>
                                     <!-- /////// -->
                                     <span style="font-size:2.0rem;color:red">Similar House</span>
                                     <div>
-                                        <!-- <carousel :arrow="true" :dots="true"  ref="carousel" :data=data indicator-type="disc" indicators="hover"> -->
+                                    
                                           <carousel :scrollPerPage="false" :autoplay="true" :navigationEnabled="true" paginationActiveColor="yellow" paginationColor="blue">
                                             <slide v-for="(place,index) in SimilarPlaces" v-bind:key="index" >
                                             <div class="card" style="width: 70%;" >
@@ -399,21 +370,15 @@
 
 <script>
 import db from '../firebase'
-import firebase from 'firebase'
+import * as firebase from 'firebase';
 import {doScrolling} from '../smoothScrolling'
 import {scrollFunction} from '../smoothScrolling'
 import { Carousel, Slide } from 'vue-carousel';
-// import { VueperSlides, VueperSlide } from 'vueperslides'
-// import 'vueperslides/dist/vueperslides.css'
 
-// import VueSlickCarousel from 'vue-slick-carousel'
-// import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-// import 'vue-slick-carousel/dist/vue-slick-carousel.css'
-// import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
-// import carousel from 'vue-owl-carousel'
+
 
 export default {
-// components: { VueperSlides, VueperSlide },
+
 components: {
     Carousel,
     Slide
@@ -498,9 +463,7 @@ components: {
         .auth()
         .signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier)
         .then(confirmationResult => {
-          // SMS sent. Prompt user to type the code from the message, then sign the
-          // user in with confirmationResult.confirm(code).
-          // let otpSent = true;
+ 
           console.log("Success");
           console.log(confirmationResult);
         })
@@ -520,16 +483,30 @@ components: {
           this.validation = true;
           console.log(result);
           console.log("submitted");
+          /////
+           firebase.firestore().collection('visits').doc(this.id+this.form.name).set({
+
+                    form:this.form,
+                    propertyid:this.id
+					// requestedDate: firebase.firestore.Timestamp.fromDate(new Date())
+         
+        }).catch(function(error){
+          console.log("nhi hua")
+        })
+       
+        alert("request Submittied")
+        
+          /////
           
           // ...
         })
         .catch(function(error) {
           // User couldn't sign in (bad verification code?)
           // ...
+        this.wrongOtp=true;
           console.log(error);
         });
-        if(this.validation!=true)
-        this.wrongOtp=true;
+        
     }
   },
    created(){
@@ -553,45 +530,24 @@ components: {
         res.forEach((doc) => {
         let val = JSON.parse(JSON.stringify(doc.data()));
         if(val.location.toLowerCase() == location.toLowerCase() && val.forWhom.toLowerCase()==ForWhom.toLowerCase()&&val.type.toLowerCase()==type.toLowerCase()&& this.id!=doc.id){
-          let div = `<div class="card" style="width: 50%;">
-             <img src="`+val.photos[0]+`" class="card-img-top" alt="...">
-             <div class="card-body">
-             <h5 class="card-title">`+val.name+`</h5>
-             <p class="card-text">`+val.shortDescription+`</p>
-             <router-link to="/detail`+ val.id+`"
-             class="btn btn-primary">Book now</router-link>
-             </div>
-             </div>
-             `
+       
           this.SimilarPlaces.push(val);   
-          this.data.push(div);   
+            
       } 
       
         });
         console.log(this.data)
-        // this.SimilarPlaces.forEach((place,ind)=>{
-        //    `<div class="card" style="width: 50rem;">
-        //     <img :src="`+place.photos[0]+`" class="card-img-top" alt="...">
-        //     <div class="card-body">
-        //     <h5 class="card-title">`+place.name+`</h5>
-        //     <p class="card-text">`+place.shortDescription+`</p>
-        //     <router-link v-bind:to="'/detail'+`+ place.id+`"
-        //     class="btn btn-primary">Book now</router-link>
-        //     </div>
-        //     </div>
-        //       `
-        // })
+ 
       });
 
    },
    mounted(){
+      
     firebase.auth().useDeviceLanguage();
     this.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha-container");
     console.log("hey");
     console.log(this.recaptchaVerifier)
-    // let externalScript = document.createElement('script')
-    // externalScript.setAttribute('src', '../smoothScrolling.js')
-    // document.body.appendChild(externalScript);
+ 
    
     window.onscroll = function() {scrollFunction()};
    },
@@ -617,7 +573,7 @@ div{
 }
 .bg-secondary{
   background-color:yellow!important ;
-  /* color:blue!important */
+
 }
 
 
