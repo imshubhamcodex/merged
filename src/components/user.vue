@@ -739,75 +739,74 @@ export default {
 
 
  	var uid;
- 	try {
-	// statements
-	if(user_profile!=false){
-		uid = user_profile.getId();
-	}else{
-		uid = this.email+this.phone;
-	}
 
-	firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
-		document.getElementById('user-name').value = res.data().personal.name;
-		document.getElementById('user-email').value = res.data().personal.email
-		document.getElementById('user-mobile').value = res.data().personal.mobile
+ 	if(user_profile!=false){
+ 		uid = user_profile.getId();
+ 	}else{
+ 		uid = this.email+this.phone;
+ 	}
 
-		if(res.data().personal.gender === 'Male' )
-			document.getElementById('defaultGroupExample1').checked=true;
-		if(res.data().personal.gender === 'Female' )
-			document.getElementById('defaultGroupExample2').checked=true;
-		if(res.data().personal.gender === 'Other' )
-			document.getElementById('defaultGroupExample3').checked=true;
+ 	firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
 
-		if(res.data().personal.maritalStatus === "Unmarried" )
-			document.getElementById('defaultGroupExample4').checked=true;
-		if(res.data().personal.maritalStatus === "Married" )
-			document.getElementById('defaultGroupExample5').checked=true;
+ 		document.getElementById('user-name').value = res.data().name;
+ 		document.getElementById('user-email').value = res.data().email;
 
-		document.getElementById('birth-date').value = res.data().personal.DOB;
+ 		document.getElementById('user-name').value = res.data().personal.name;
+ 		document.getElementById('user-email').value = res.data().personal.email
+ 		document.getElementById('user-mobile').value = res.data().personal.mobile
 
-		if(res.data().professional.employment === 'Student')
-			document.getElementById('Example1').checked = true;
-		if(res.data().professional.employment === 'Employed')
-			document.getElementById('Example2').checked = true;
-		if(res.data().professional.employment === 'Self Employed')
-			document.getElementById('Example3').checked = true;
+ 		if(res.data().personal.gender === 'Male' )
+ 			document.getElementById('defaultGroupExample1').checked=true;
+ 		if(res.data().personal.gender === 'Female' )
+ 			document.getElementById('defaultGroupExample2').checked=true;
+ 		if(res.data().personal.gender === 'Other' )
+ 			document.getElementById('defaultGroupExample3').checked=true;
 
-		document.getElementById('employer-name').value = res.data().professional.employerName;
+ 		if(res.data().personal.maritalStatus === "Unmarried" )
+ 			document.getElementById('defaultGroupExample4').checked=true;
+ 		if(res.data().personal.maritalStatus === "Married" )
+ 			document.getElementById('defaultGroupExample5').checked=true;
 
-		if(res.data().professional.qualification==="10th")
-			document.getElementById('quali1').checked = true;
-		if(res.data().professional.qualification==="12th")
-			document.getElementById('quali2').checked = true;
-		if(res.data().professional.qualification==="UG")
-			document.getElementById('quali3').checked = true;
-		if(res.data().professional.qualification==="PG")
-			document.getElementById('quali4').checked = true;
-		if(res.data().professional.qualification==="Phd")
-			document.getElementById('quali5').checked = true;
+ 		document.getElementById('birth-date').value = res.data().personal.DOB;
 
-		document.getElementById('employer-mobile').value = res.data().professional.officeMobile
-		document.getElementById('employer-email').value = res.data().professional.officeEmail
+ 		if(res.data().professional.employment === 'Student')
+ 			document.getElementById('Example1').checked = true;
+ 		if(res.data().professional.employment === 'Employed')
+ 			document.getElementById('Example2').checked = true;
+ 		if(res.data().professional.employment === 'Self Employed')
+ 			document.getElementById('Example3').checked = true;
 
-		document.getElementById('emer-address').value = res.data().contact.emergencyAddress
-		document.getElementById('emer-phone').value = res.data().contact.emergencyMobile
-		document.getElementById('emer-g-name').value = res.data().contact.emergencyGardian
+ 		document.getElementById('employer-name').value = res.data().professional.employerName;
 
-		document.getElementById('ac-name').value = res.data().bank.accHolderName
-		document.getElementById('ac-num').value = res.data().bank.accNumber
-		document.getElementById('branch-name').value = res.data().bank.branchName
-		document.getElementById('ifsc').value = res.data().bank.ifsc;
+ 		if(res.data().professional.qualification==="10th")
+ 			document.getElementById('quali1').checked = true;
+ 		if(res.data().professional.qualification==="12th")
+ 			document.getElementById('quali2').checked = true;
+ 		if(res.data().professional.qualification==="UG")
+ 			document.getElementById('quali3').checked = true;
+ 		if(res.data().professional.qualification==="PG")
+ 			document.getElementById('quali4').checked = true;
+ 		if(res.data().professional.qualification==="Phd")
+ 			document.getElementById('quali5').checked = true;
 
-	}).catch(err =>{
-		console.log(err);
-	})
+ 		document.getElementById('employer-mobile').value = res.data().professional.officeMobile
+ 		document.getElementById('employer-email').value = res.data().professional.officeEmail
 
-} catch(e) {
-	// statements
-	console.log(e);
-}
+ 		document.getElementById('emer-address').value = res.data().contact.emergencyAddress
+ 		document.getElementById('emer-phone').value = res.data().contact.emergencyMobile
+ 		document.getElementById('emer-g-name').value = res.data().contact.emergencyGardian
 
-if(user_profile!=false){
+ 		document.getElementById('ac-name').value = res.data().bank.accHolderName
+ 		document.getElementById('ac-num').value = res.data().bank.accNumber
+ 		document.getElementById('branch-name').value = res.data().bank.branchName
+ 		document.getElementById('ifsc').value = res.data().bank.ifsc;
+
+ 	}).catch(err =>{
+ 		console.log(err);
+ 	})
+
+
+ 	if(user_profile!=false){
 	//ui stuff to hide chose image button
 	document.getElementById("u_image_div").style.marginBottom = '-10px'
 	document.getElementById("userImage").style.display = 'none';
@@ -815,35 +814,34 @@ if(user_profile!=false){
 	this.imageid = user_profile.getId()
 	this.proofid = user_profile.getId()
 	firebase.firestore().collection('userProfile').doc(user_profile.getId()).get().then(res =>{
-		this.user = res.data().personal.photo
-	}).catch(err =>{
-		console.log(err)
-	})
-}else{
-	this.imageid = store.state.email+store.state.phone
-	this.proofid = store.state.email+store.state.phone
-	var uid = store.state.email+store.state.phone;
-	firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{ // error on new registration
-		this.user = url;
-	}).catch(err =>{
-		this.user = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
-	})
-}
+		this.user = res.data().image;
+		}).catch(err =>{
+				console.log(err);
+			})
+		}else{
+			this.imageid = store.state.email+store.state.phone
+			this.proofid = store.state.email+store.state.phone
+			var uid = store.state.email+store.state.phone;
+			firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{ 
+				this.user = url;
+			}).catch(err =>{
+				this.user = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
+			})
+		}
 
-if(window.innerWidth > 480){
-	document.getElementsByClassName('user_div_class')[0].style.width = '60%'
-}
-
-
+		if(window.innerWidth > 480){
+			document.getElementsByClassName('user_div_class')[0].style.width = '60%'
+		}
 
 
-},
-created(){
+
+
+	},
+	created(){
 	this.$root.$children[0].$children[0].$el.style.display="none"; //to hide old nav bar
 	if(store.state.phone !=null){
 		this.phone = store.state.phone // set email and phone to the users mail and phone from login_signup_user.vue
 		this.email = store.state.email
-
 	}
 	
 }

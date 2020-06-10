@@ -265,14 +265,21 @@ export default {
 
 
 		
-		if(user_profile!=false){  // if logged in via gmail
+		if(user_profile !=false ){  // if logged in via gmail
 			firebase.firestore().collection('userProfile').doc(user_profile.getId()).get().then(res =>{
+				this.img = res.data().image;
+				this.user_name = res.data().name;
 				if(res.data().personal.photo != undefined){
 					this.img = res.data().personal.photo // get user image 
-					this.user_name = res.data().personal.name				}
+					this.user_name = res.data().personal.name				
+				}else{
+					this.img = res.data().image;
+					this.user_name = res.data().name;
+				}
 
 				}).catch(err =>{
-					console.log(err)
+					console.log(err);
+					
 				})
 		}else{ // error on new registration
 			var uid = store.state.email+store.state.phone;
