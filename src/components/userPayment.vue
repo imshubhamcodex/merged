@@ -104,7 +104,7 @@ export default {
 					<span style="color:black; font-size:13px; width:100%; height:24px; background:rgb(211, 211, 211); display:block;box-shadow:0px 2px 2px rgba(0,0,0,0.7);"><span style="margin-left:12px;font-family:Montserrat;font-weight:600;font-size:15px;">Invoice No.: </span><span style="color:#3fb6c6;font-family:Montserrat;font-weight:600;font-size:15px;">${element.vn}</span></span> 
 					<h6 style="margin-left:40px;margin-top:14px;font-family:Montserrat;font-weight:700"><i class="fa fa-circle-o" aria-hidden="true" style="position:absolute;margin-left:-16px;color:#3fb6c6;background-color:white;"></i>Rent ${element.month} <span style="float:right;margin-right:10px;"> ₹ ${element.amount}</span></h6>
 					<p style="margin-top:0px;margin-left:40px;font-size:13px;position:relative;"><span style="font-family:Montserrat;"> Paid on ${element.date}</span></p>
-					<hr style="margin-top:0px !important;margin-bottom:5px !important">
+					<hr style="margin-top:0px !important;margin-bottom:5px !important ;">
 					<p style="margin-left:15px;font-family:Montserrat;font-weight:600;font-size:15px;">Total: ₹ ${element.total}<span style="float:right;margin-right:10px;">VIEW INVOICE</span></p>
 					</div>
 					`
@@ -168,10 +168,10 @@ export default {
 		this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar  
 		await firebase.firestore().collection('rentDue').doc(this.uid).get().then(res =>{
 			if(res.exists){
-				
-				var element = res.data().due[0]
+				this.dueamount = res.data().total;
+				var length = res.data().due.length;
+				var element = res.data().due[res.data().due.length - 1]
 				this.name = element.name;
-				this.dueamount = element.amount;
 				this.duemonth = element.month;
 				this.duedate = element.lastDate.toDate().toString().substring(0,10)
 
