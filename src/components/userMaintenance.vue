@@ -118,7 +118,7 @@
 		methods:{
 			changeSubHeading(){
 				console.log(document.getElementById('service_type').value)
-			
+
 				if(document.getElementById('service_type').value==="Furiture & Carpentry"){
 
 					this.items.push("Doors","Windows","Table","Bed","Mattress")
@@ -129,7 +129,7 @@
 				else if(document.getElementById('service_type').value==="Electrical Appliances"){
 
 					this.items.push("Washing machine not working","Water purifier","Water purifier","Fan not working","TV not working","DTH","Lift","Refrigerator","Gyser")
-			
+
 				}
 				else if(document.getElementById('service_type').value==="Plumbing"){
 
@@ -168,7 +168,8 @@
 				})
 
 
-
+				var slnum = "SC_"+ Math.floor(Math.random()*1000000000).toString();
+				this.imageid = slnum;
 
 
 				var task = firebase.storage().ref("userMaintenanceImage/"+this.imageid).put(pic);
@@ -182,23 +183,22 @@
 					visitTime: visit_time,
 					photo: this.imageid,
 					solved: false,
-					sl: "SC_"+ Math.floor(Math.random()*1000000000).toString()
+					sl: slnum
 				})
 
-				document.getElementById('data-uploaded').click()
+				document.getElementById('data-uploaded').click();
+			},
+			async fetchData(){
 
-			// firebase.firestore.Timestamp.fromDate(new Date())
-		},
-		async fetchData(){
-			await firebase.firestore().collection('userRequests').doc(this.uid).get().then(res =>{
-				(res.data().id).forEach( (element, index) => {
-					firebase.firestore().collection('userMaintenance').doc(element).get().then(res =>{
-						// console.log(res.data().service);
-						// console.log(res.data().sl)
-						// console.log(res.data().solved)
-						// console.log(res.data().date.toDate())
+				var arrID = [];
+
+				await firebase.firestore().collection('userRequests').doc(this.uid).get().then(res =>{
+					arrID = res.data().id;
+				});
+
+				for(let i = 0; i< arrID.length;i++){
+					await firebase.firestore().collection('userMaintenance').doc(arrID[i]).get().then(res =>{
 						document.getElementById('status').style.display = "block";
-
 						var x = {
 							sec:res.data().date.seconds,
 							service:res.data().service,
@@ -216,14 +216,13 @@
 
 					})
 
-				});
-			})
 
-			setTimeout(()=>{
+				}
+
+
 				this.arrUnsolved.sort(function(a,b){ return Number(b.sec) - Number(a.sec)});
 
-				Array.from(this.arrUnsolved).forEach(function(element, index) {
-
+				this.arrUnsolved.forEach(function(element, index) {
 					if(element.date.charAt(9)=='1')
 						element.date += "st";
 					else if(element.date.charAt(9)=='2')
@@ -235,12 +234,12 @@
 
 					var disp = 'color:orange;font-size:7px;position:absolute;top:40%;left:-3%;display:inherit';
 					if(window.innerWidth > 480){
-						disp = 'color:orange;font-size:7px;position:absolute;top:40%;left:-3%;display:none'
+						disp = 'color:orange;font-size:7px;position:absolute;top:40%;left:-3%;display:none;'
 					}
 
 					var newEle =`
 					<div data-aos="fade-up"  data-aos-offset="120"style="width:95%;height:100px;background-color:white;border-radius:3px;border:1px solid #ddd;box-shadow:0px 2px 5px rgba(0,0,0,0.6);margin:12px auto;padding-top:7px;">
-					<span style="color:grey;font-size:13px;margin-left:10px;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
+					<span style="color:grey;font-size:13px;padding-left:20px;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
 					<h6 style="margin-left:20px;margin-top:7px;font-family:Montserrat;font-weight:700">${element.service}</h6>
 					<p style="margin-top:-8px;margin-left:27px;font-size:13px;position:relative;"><i style=${disp} class="fa fa-circle" aria-hidden="true"></i><span style="font-family:Montserrat;"> Service on progress</span></p>
 					</div>
@@ -253,7 +252,8 @@
 
 
 				this.arrSolved.sort(function(a,b){ return Number(b.sec) - Number(a.sec)});
-				Array.from(this.arrSolved).forEach(function(element, index) {
+				this.arrSolved.forEach(function(element, index) {
+
 					if(element.date.charAt(9)=='1')
 						element.date += "st";
 					else if(element.date.charAt(9)=='2')
@@ -265,45 +265,45 @@
 
 					var disp = 'color:green;font-size:7px;position:absolute;top:40%;left:-3%;display:inherit';
 					if(window.innerWidth > 480){
-						disp = 'color:green;font-size:7px;position:absolute;top:40%;left:-3%;display:none'
+						disp = 'color:green;font-size:7px;position:absolute;top:40%;left:-3%;display:none;'
 					}
 
 					var newEle =`
+
 					<div data-aos="fade-up"  data-aos-offset="120"style="width:95%;height:100px;background-color:white;border-radius:3px;border:1px solid #ddd;box-shadow:0px 2px 5px rgba(0,0,0,0.6);margin:12px auto;padding-top:7px;">
-					<span style="color:grey;font-size:13px;margin-left:10px;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
+					<span style="color:grey;font-size:13px;padding-left:20px;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
 					<h6 style="margin-left:20px;margin-top:7px;font-family:Montserrat;font-weight:700">${element.service}</h6>
-					<p style="margin-top:-8px;margin-left:27px;font-size:13px;position:relative;"><i style="" class="fa fa-circle" aria-hidden="true"</i><span style="font-family:Montserrat;">  Done</span></p>
+					<p style="margin-top:-8px;margin-left:27px;font-size:13px;position:relative;"><span style="font-family:Montserrat;color:green;font-weight:700;">  Done</span></p>
 					<p style="margin-top:-15px;float:right;margin-right:10px;font-family:Montserrat;color:#3fb6c6;font-weight:600;">FEEDBACK</p>
 					</div>
 
 					`
-					document.getElementById('status_div').innerHTML += newEle
-
-
+					document.getElementById('status_div').innerHTML += newEle;
 
 				});
 
 
-			}, 3000);
 
+			}
+		},
+		mounted(){
+			if(user_profile!=false){
+				this.uid = user_profile.getId();
+			}else{
+				this.uid = store.state.email+store.state.phone;
+			}
 
+			try {
+				this.fetchData();
+			} catch(e) {
+				console.log(e)
+			}
 
-		}
-	},
-	mounted(){
-		try {
-			this.fetchData();
-		} catch(e) {
-			console.log(e)
-		}
-		
 
 		this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar 
 		document.getElementById('m_pic').addEventListener('change', function(e){
  		pic = e.target.files[0]; // attach mainten. img file
  	});
-		console.log(this.imageid)
-		console.log(this.uid);
 
 		if(window.innerWidth >480){
 			document.getElementById('mainten').style.width = '60%';
@@ -315,10 +315,8 @@
 	created(){
 
 		if(user_profile!=false){
-			this.imageid = user_profile.getId();
 			this.uid = user_profile.getId();
 		}else{
-			this.imageid = store.state.email+store.state.phone;
 			this.uid = store.state.email+store.state.phone;
 		}
 	}
