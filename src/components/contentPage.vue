@@ -1,17 +1,10 @@
 <template>
   <div id="wrapper" style="margin-top: 70px;">
    <!-- ///// -->
-   <!-- <div class="col ">
-                    <label for="validationCustom02" style="font-family: Bahnschrift;margin-bottom:10px;">Find home by Location:</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="Location"  list="places" style="font-family: Bahnschrift;color: rgba(0,191,255,0.8);" autocomplete=off v-model="candidatelocation">
-                    <datalist  id="places" style="font-family: Bahnschrift;color: rgba(0,191,255,0.8);" >
-                      
-                       <option v-for="place in places" v-bind:key="place">{{place}}</option>
-                    </datalist>
-                </div>
-                <hr style="background-color:yellow"> -->
+  
     <!-- ///// -->
-    
+      <div class="row flex-row-reverse px-5" id="content-xl">
+        <div class="col-6" style="display:hide">
       <div class="container" style="margin-right: 0px;padding: 0px; margin-top: 10px; margin-bottom: 130px;">
                   <div id="carouselExampleSlidesOnly" class="carousel slide " data-ride="carousel">
                       <div class="carousel-inner my-lg-4 py-lg-4">
@@ -21,14 +14,28 @@
                       </div>
                   </div>
           </div>
-
-          <div id="heading" style="position: absolute; top:30%;left:6%;">
+</div>
+  <div class="col-6">
+          <div  style="">
             <h4 id="h4-1" style="font-family: Bahnschrift;">Search, Select</h4>
               <h4 id="h4-2" style="font-family: Bahnschrift;">And Shift To Your</h4>
               <h1 id="h1-1" style="font-family: Bahnschrift; font-size: 55px; color: rgb(0,191,255); font-weight:600;">Perfect Home</h1>
               <p id="p-1" style="font-family: Bahnschrift; font-size: 18px;color: dimgrey; font-weight: 300;">A perfect solution for the home seeker where we provide <br> room on rent at lowest possible cost. </p>
               <button id="btn-explore" type="button" style="font-family: Bahnschrift;background-color: rgba(0,191,255,0.8);color:white; outline: 0;border:0; width: 100px;height: 40px;border-radius:20px;" onclick="doScrolling('#properties',2000)">Explore</button> 
           </div>
+          </div>
+          </div>
+          <!-- ////// -->
+           <div id = "content-sm"  class="container" style="margin-right: 0px;padding: 0px; margin-top: 10px; margin-bottom: 130px;display:none">
+                  <div id="carouselExampleSlidesOnly" class="carousel slide " data-ride="carousel">
+                      <div class="carousel-inner my-lg-4 py-lg-4">
+                          <div class="carousel-item active" id="image-div">
+                          <img id="back-img" :src="homeBgImg" alt="First slide" style="float: right; width: 50vw;">
+                          </div>
+                      </div>
+                  </div>
+          </div>
+          <!-- ////// -->
           <div class="col col-xl-6">
                     <!-- <label for="validationCustom02" style="font-family: Bahnschrift;margin-bottom:10px;">Location:</label> -->
                     <div class="input-group bg-dark">
@@ -79,8 +86,8 @@ export default {
            this.homeBgImg='./img/back.png';
   },
    mounted(){
-    window.onresize = () => {
                  console.log(window.innerWidth);
+    window.onresize = () => {
                  console.log(typeof(window.innerWidth));
                  if(window.innerWidth<=480){
                    this.homeBgImg='./img/background.png';
