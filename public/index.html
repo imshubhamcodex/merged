@@ -63,8 +63,8 @@
 
   <!-- /// -->
 </head>
-<body>
-  <div id="app"></div>
+<body >
+  <div id="app" ></div>
 
 
 
@@ -104,6 +104,9 @@
 
 
     <style type="text/css" media="screen">
+    *{
+      overflow-x:unset!important
+    }
      hr{
       margin-top: 1rem!important;
       margin-bottom: 1rem!important;
@@ -123,9 +126,10 @@
     }
 
     @media (max-width: 480px) {
-      #heading {
+      #content-xl {
         display: none; }
-
+        #content-sm {
+        display: contents!important; }
         #back-img {
           width: 100vw !important;
           padding: 20px !important;
