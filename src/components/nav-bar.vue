@@ -6,16 +6,12 @@
         <a class="navbar-brand" href="/index.html">
           <img style="width:134px" src="../assets/roomlelologo.png" alt="">
         </a>
-        <button class="btn btn-primary" >find home</button>
+        <button class="btn btn-primary" @click="goto">find home</button>
         <button class="navbar-toggler text-dark" type="button" v-on:click="showNav()">
           <span class="navbar-toggler-icon"></span>
         </button> 
       </div> 
     </nav>
-
-
-
-
 
     <div v-if = "renderNav" v-show = "show_nav" id="nav-menu" style="margin-top:0px; font-family:Montserrat; background:white; width:100%; padding-top:20px;">
       <ul style="margin:0;padding:0;padding-left:20px;padding-right:20px;">
@@ -110,6 +106,15 @@ export default {
     }
   },
   methods:{
+     goto:function(){
+           let queryObject = {
+                location: 'anywhere',
+                type: 'none',
+              
+            }
+         
+          this.$router.push({name:'result',query:{queryObject}});
+       },
     goToLog(){
       // set data of login  in vuex to use in user.vue
       store.commit({
