@@ -1,9 +1,61 @@
 <template>
 <div>
-    <!-- /////Sticky Book now button///// -->
-    <button type="button" class="btn btn-primary sticky-top" id="mybookbtn" @click="bookbtn"
-        style="z-index: 1050!important;">Book now</button>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <!-- ///book now modal object form for tab and phone/// -->
+    <div class="modal fade" id="booknow-sm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel1">Book now form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card  px-lg-4 py-lg-4 m-2 p-2 text-center sticky-top" id="bookbar">
+                    <h4>Book a visit!</h4>
+                    <hr>
+
+                    <form>
+                        <div id="collapseTarget2" class="collapse show">
+                            <div class="form-group">
+                                <label for="nameInput">Full Name</label>
+                                <input type="text" class="form-control" id="nameInput1" v-model="form.name">
+                            </div>
+                            <div class="form-group">
+                                <label for="numberInput">Phone number</label>
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">+91</div>
+                                    </div>
+                                    <input type="text" class="form-control" id="numberInput1" v-model="form.phone">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nameInput"> Visit Date </label>
+                                <input type="date" class="form-control" id="dateInput1" v-model="form.date">
+                            </div>
+                            <button type="button" class="btn btn-primary" @click="sendOTP" data-toggle="modal"
+                                :data-target="OTPModal" data-dismiss="modal">
+                                Sent OTP
+                            </button>
+                            <hr>
+                            <small>Or call +91-9711999999</small>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+ 
+            </div>
+        </div>
+        </div>
+    <!-- ///book now modal objecy form for tab and phone end/// -->
+
+        <button type="button" class="btn btn-primary sticky-top" data-toggle="modal" data-target="#booknow-sm">
+            Book now
+            </button>
+    <!-- otp modal box         -->
+    <div class="modal fade" id="OTPModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -43,6 +95,9 @@
             </div>
         </div>
     </div>
+     <!-- otp modal box     end    -->
+     <!-- detail body start -->
+
     <div class="container">
         <div class="row">
             <div class="col-xl-8 col-12 px-lg-4 py-lg-4 p-1">
@@ -232,8 +287,18 @@
                                     </ul>
                                     </p>
                                     
-                                     <a style="font-weight:bold" data-toggle="collapse" href="#propertyDescription" role="button" aria-expanded="true" aria-controls="propertyDescription">More About Property</a>
-                                    <p id="propertyDescription"> {{property.description}}</p>
+                                     <!-- <a style="font-weight:bold" data-toggle="collapse" href="#propertyDescription" role="button" aria-expanded="true" aria-controls="propertyDescription">More About Property</a>
+                                    <p id="propertyDescription"> {{property.description}}</p> -->
+                                     <vs-collapse >
+                                            <vs-collapse-item  icon-arrow="">
+                                            <div slot="header" style="font-weight:bold">
+                                                More About Property
+                                                <i class="fa fa-chevron-down" ></i>
+                                            </div>
+                                                {{property.description}}
+                                            </vs-collapse-item  >     
+                                       </vs-collapse >
+
                                     <hr>
                                     <!-- /////// -->
                                     <span style="font-size:2.0rem;color:red">Similar House</span>
@@ -264,7 +329,7 @@
             </div>
 
             <!-- visit form -->
-            <div class="col-xl-4 col-12  px-lg-4 py-lg-4 p-1 ">
+            <div class="col-xl-4 col-12  px-lg-4 py-lg-4 p-1 " id="booknow-xl">
                 <div class="card  px-lg-4 py-lg-4 m-2 p-2 text-center sticky-top" id="bookbar">
                     <h4>Book a visit!</h4>
                     <hr>
@@ -281,15 +346,15 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">+91</div>
                                     </div>
-                                    <input type="text" class="form-control" id="numberInput" v-model="form.phone">
+                                    <input type="text" class="form-control" id="numberInput2" v-model="form.phone">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="nameInput"> Visit Date </label>
-                                <input type="date" class="form-control" id="dataInput" v-model="form.date">
+                                <input type="date" class="form-control" id="dateInput2" v-model="form.bookedDate">
                             </div>
                             <button type="button" class="btn btn-primary" @click="sendOTP" data-toggle="modal"
-                                data-target="#exampleModal">
+                                :data-target="OTPModal">
                                 Sent OTP
                             </button>
                             <hr>
@@ -371,8 +436,8 @@
 <script>
 import db from '../firebase'
 import * as firebase from 'firebase';
-import {doScrolling} from '../smoothScrolling'
-import {scrollFunction} from '../smoothScrolling'
+// import {doScrolling} from '../smoothScrolling'
+// import {scrollFunction} from '../smoothScrolling'
 import { Carousel, Slide } from 'vue-carousel';
 
 
@@ -390,7 +455,9 @@ components: {
       photos:[],
       rentDetails:[],
       phone:'',
-      form:{},
+      form:{
+          name:'',
+      },
       recaptchaVerifier: {},
       confirmationResult:{},
       SimilarPlaces:[],
@@ -403,6 +470,7 @@ components: {
       limit_amenity:2,
       limit_housefeature:3,
       limit_nearby:3,
+      OTPModal:''
 
     }
   },
@@ -422,15 +490,20 @@ components: {
             var keys =Object.keys(this.property.Nearby) ;
            var  filters_length = keys.length;
             this.limit_nearby = (this.limit_nearby === default_limit) ? filters_length : default_limit;
-        },      
+        },  
+     otpchange: function(){
+         this.wrongOtp=true;
+     },       
      
     sendOTP: function(){
       this.wrongOtp=false;
       console.log(this.form.phone);
         if(this.form.phone.length != 10||this.form.name.length==0){
                 alert("detail filled are not correct");
+                this.OTPModal='';
                 return '';
             }
+       this.OTPModal='#OTPModal'     
     let phoneNumber = "+91" + this.form.phone;
     firebase.auth().signInWithPhoneNumber(phoneNumber, this.recaptchaVerifier).then(confirmationResult => {
         // SMS sent. Prompt user to type the code from the message, then sign the
@@ -448,10 +521,10 @@ components: {
         this.recaptchaVerifier("recaptcha-container");
       });      
     },
-    bookbtn: function(){
-      console.log("chalrha h");
-      doScrolling("#bookbar",1000);
-    },
+    // bookbtn: function(){
+    //   console.log("chalrha h");
+    //   doScrolling("#bookbar",1000);
+    // },
     resendOTP: function() {
       console.log(this.form.phone);
       if (this.form.phone.length != 10) {
@@ -475,37 +548,43 @@ components: {
           this.recaptchaVerifier("recaptcha-container");
         });
     },
-    submitOTP: function() {
+    submitOTP: async function() {
       var code = this.otp;
-      this.confirmationResult.confirm(code)
+      var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    var today = mm + '/' + dd + '/' + yyyy; 
+     await this.confirmationResult.confirm(code)
         .then(result => {
           // User signed in successfully.
           this.validation = true;
           console.log(result);
           console.log("submitted");
           /////
-           firebase.firestore().collection('visits').doc(this.id+this.form.name).set({
+           firebase.firestore().collection('visits').add({
 
                     form:this.form,
-                    propertyid:this.id
+                    propertyid:this.id,
+                    date: today,
+                    seen:false
 					// requestedDate: firebase.firestore.Timestamp.fromDate(new Date())
          
         }).catch(function(error){
           console.log("nhi hua")
+           this.wrongOtp = true
         })
        
         alert("request Submittied")
-        
-          /////
-          
-          // ...
-        })
-        .catch(function(error) {
-          // User couldn't sign in (bad verification code?)
-          // ...
-        this.wrongOtp=true;
+
+        }).catch(function(error) {
+         console.log("wrong otp");
+           otpchange();
           console.log(error);
         });
+        // if(this.validation!=true)
+        this.wrongOtp=true;
         
     }
   },
@@ -549,7 +628,7 @@ components: {
     console.log(this.recaptchaVerifier)
  
    
-    window.onscroll = function() {scrollFunction()};
+    // window.onscroll = function() {scrollFunction()};
    },
     
 }
@@ -557,6 +636,13 @@ components: {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+ @media (max-width: 1201px){
+   #booknow-xl{
+       display: none;
+   }
+ }
+
 div{
     font-family: 'Montserrat', sans-serif;
 }
