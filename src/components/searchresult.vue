@@ -216,7 +216,7 @@
               v-for="(place,ind) in showlist"
               v-bind:key="ind"
             >
-              <div class="card mt-3 wt-100">
+              <div class="card mt-3 wt-100" :class="{'sold':place.available==false}">
                 <div class="row">
                   <div class="col-7">
                     <img class="card-img rounded m-1" :src="place.photos[0]" alt />
@@ -263,11 +263,15 @@
 
                       <div class="text-right">
                         <a v-bind:href="'/detail'+ place.id" style="text-decoration:none">
-                          <button
-                            class="btn btn-success mb-1 mr-1 px-0 align-text-bottom"
-                            style="font-size:small"
+                          <button v-show="place.available==true"
+                            class="btn btn-success mb-1 mr-1 align-text-bottom"
+                            style="font-size:small;padding-left:3px;padding-right:3px"
                           >Book your Visit</button>
                         </a>
+                          <button v-show="place.available==false"
+                            class="btn btn-success mb-1 mr-1 align-text-bottom"
+                            style="font-size:small;padding-left:4px;padding-right:4px"
+                          >Sold</button>
                       </div>
                     </div>
                   </div>
@@ -484,6 +488,9 @@ div {
 }
 label {
   margin-bottom: 0 !important;
+}
+.sold{
+  opacity:0.5
 }
 .active {
   background-color: #0066cc !important;
