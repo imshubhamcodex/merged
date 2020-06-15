@@ -1,20 +1,34 @@
 <template>
-<div id="propReg">
-<div class="card text-center  mx-auto mt-5" style="width:80%;border-radius:25px;box-shadow: 7px 9px 30px -22px rgb(0, 0, 0)">
+<div id="propReg" style="background-image: url('./img/dronephoto.jpg');background-repeat: no-repeat;background-size: 100vw 40vw;">
+<nav class="navbar navbar-light ">
+
+    <img src="./../assets/roomlelologo.png" class="mb-5 ml-5 mt-2" width="25%" height="30%" alt="">
+ 
+  <form class="form-inline my-2 my-lg-0">
+      <svg class="bi bi-envelope mail" style="width:15em;height:5em"  viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M14 3H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
+  <path d="M.05 3.555C.017 3.698 0 3.847 0 4v.697l5.803 3.546L0 11.801V12c0 .306.069.596.192.856l6.57-4.027L8 9.586l1.239-.757 6.57 4.027c.122-.26.191-.55.191-.856v-.2l-5.803-3.557L16 4.697V4c0-.153-.017-.302-.05-.445L8 8.414.05 3.555z"/>
+</svg>
+    </form>
+</nav>
+<div class="card text-center  mx-auto " style="width:80%;border-radius:25px;box-shadow: 7px 9px 30px -22px rgb(0, 0, 0);">
   <div class="card-header ">
     Become Our partner
   </div>
     <div class="form-group text-left mx-3">
-    <label for="formGroupExampleInput  ">Name</label>
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name" v-model="name">
+    <!-- <label for="formGroupExampleInput  ">Name</label> -->
+    <vs-input class="inputx mt-4" label-placeholder="Name"  v-model="name" style="width:100%"/>
+    <!-- <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name" v-model="name"> -->
   </div>
   <div class="form-group text-left mx-3">
-    <label for="formGroupExampleInput2">Mobile Number</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="+91" v-model="phoneNumber">
+    <!-- <label for="formGroupExampleInput2">Mobile Number</label>
+    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="+91" v-model="phoneNumber"> -->
+    <vs-input class="inputx mt-4" label-placeholder="Phone Number" v-on:keyup="numberCheck" danger-text="Phone number should have 10 digit starting from [6-10] " :danger="check" v-model="phoneNumber" style="width:100%"/>
   </div>
   <div class="form-group text-left mx-3">
-    <label for="formGroupExampleInput3">Location</label>
-    <input type="text" class="form-control" id="formGroupExampleInput3" placeholder=""  v-model="location">
+    <!-- <label for="formGroupExampleInput3">Location</label>
+    <input type="text" class="form-control" id="formGroupExampleInput3" placeholder=""  v-model="location"> -->
+     <vs-input class="inputx mt-4" label-placeholder="Location"  v-model="location" style="width:100%" />
   </div>
     <ul class="d-flex justify-content-center">
     
@@ -130,10 +144,24 @@ export default {
       name:'',
       phoneNumber:'',
       location:'',
-      housetype:''
+      housetype:'',
+      showbar:false,
+      check:false,
     }
   },
+  created(){
+    this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar 
+  },
   methods:{
+    numberCheck(){
+      // console.log(this.phoneNumber);
+      var num = this.phoneNumber[0];
+
+      if(this.phoneNumber.length!=10||num<6)
+      this.check= true;
+      else
+      this.check= false;
+    },
     requestcall(){
     
   
@@ -143,7 +171,7 @@ export default {
       alert("Detail are incorrect");
       return
     }  
-    firebase.firestore().collection('newPropertyRequest').doc(this.name).set({
+    firebase.firestore().collection('newPropertyRequest').doc(this.name+this.phoneNumber+this.location).set({
 
 					name : this.name,
 					location: this.location,
@@ -159,11 +187,21 @@ export default {
         window.location.reload();
   }
   
-  }
+  },
 }
 </script>
 
 
-<style>
-
+<style scoped>
+  @media (max-width: 800px) {
+   #propReg{
+     background-size: 100vw 112vw!important;
+   }
+  }
+  @media (max-width: 480px) {
+   .mail{
+     width: 8em!important;
+     height: 3em!important;
+   }
+  }
 </style>
