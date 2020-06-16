@@ -7,7 +7,7 @@
           <img style="width:134px" src="../assets/roomlelologo.png" alt="">
         </a>
         <button class="btn btn-primary" @click="goto">find home</button>
-        <button class="navbar-toggler text-dark" type="button" v-on:click="showNav()">
+        <button class="navbar-toggler text-dark" type="button" style="display:inline !important;" v-on:click="showNav()">
           <span class="navbar-toggler-icon"></span>
         </button> 
       </div> 
