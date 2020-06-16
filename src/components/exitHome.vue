@@ -89,7 +89,9 @@
 				propertyId:"",
 				days:"7 days",
 				stay:"",
-				seconds:""
+				seconds:"",
+				adminNums: [9999999999],
+				userNum: 9999999999
 			}
 		},
 		methods:{
@@ -106,6 +108,19 @@
 				})
 
 				alert('Request Submitted')
+
+				var msg = "Exit request submitted by " + this.uid +" contact number "+this.userNum 
+
+				var settings = {
+					"async": true,
+					"crossDomain": true,
+					"url": "https://www.fast2sms.com/dev/bulk?authorization=bLhTVlxWKv8sYJOynkBMCQPU2meNS3uAXjrZ5D47c6gqpi0a1obPWLc8ywd2tAZ1YgjN9GSBC5HnF0VI&sender_id=RLL&message=hi&language=english&route=p&numbers="+ this.userNum.toString()+","+this.adminNums[0],
+					"method": "GET"
+				}
+
+				$.ajax(settings).done(function (response) {
+					console.log(response);
+				});
 			},
 
 			showDays(){
@@ -152,7 +167,7 @@
 			}
 
 		},
-	async mounted(){
+		async mounted(){
 	 	this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar  
 
 	 	if(window.innerWidth>480){
@@ -164,59 +179,72 @@
 	 	}
 
 	 	document.getElementById('seven').style.background = '#3fb6c6'
-		document.getElementById('s-seven').style.color = "white";
+	 	document.getElementById('s-seven').style.color = "white";
 
 
 
-	await firebase.firestore().collection('registeredUser').doc(this.uid).get().then( res =>{
-			console.log(res.data());
-			this.propertyId = res.data().propertyId;
-			this.seconds =  res.data().seconds;
-		})
+	 	await firebase.firestore().collection('registeredUser').doc(this.uid).get().then( res =>{
+	 		console.log(res.data());
+	 		this.propertyId = res.data().propertyId;
+	 		this.seconds =  res.data().seconds;
+	 	})
 
 
 
-			var myFirebaseFirestoreTimestampFromDate = firebase.firestore.Timestamp.fromDate(new Date());
-			var diff = myFirebaseFirestoreTimestampFromDate.seconds - this.seconds;
+	 	var myFirebaseFirestoreTimestampFromDate = firebase.firestore.Timestamp.fromDate(new Date());
+	 	var diff = myFirebaseFirestoreTimestampFromDate.seconds - this.seconds;
 
-			var min = diff/60;
-			var hours = min/60;
-			var days = hours/24;
+	 	var min = diff/60;
+	 	var hours = min/60;
+	 	var days = hours/24;
 
-			this.stay = days.toString().substring(0,3);   
+	 	this.stay = days.toString().substring(0,3);   
+
+	 	await firebase.firestore().collection('userProfile').doc(this.uid).get().then(res=>{
+	 		this.userNum = res.data().personal.mobile;
+	 	}).catch(err =>{
+	 		alert("Mobile number not found")
+	 	})
+
+
+	 	await firebase.firestore().collection('Admin').get().then(res=>{
+	 		res.docs.forEach((ele,index) =>{
+	 			this.adminNums[index] = (ele.id);
+	 			console.log(ele.id);
+	 		})
+	 	})
 
 
 
-	 
-	},
-	created(){
-			if(user_profile!=false){
-			this.imageid = user_profile.getId();
-			this.uid = user_profile.getId();
-		}else{
-			this.imageid = store.state.email+store.state.phone;
-			this.uid = store.state.email+store.state.phone;
-		}
+	 },
+	 created(){
+	 	if(user_profile!=false){
+	 		this.imageid = user_profile.getId();
+	 		this.uid = user_profile.getId();
+	 	}else{
+	 		this.imageid = store.state.email+store.state.phone;
+	 		this.uid = store.state.email+store.state.phone;
+	 	}
+	 }
 	}
-}
-</script>
+	</script>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-main{
-	width:92%;
-	margin:0 auto; 
-	display:grid;
-	grid-template-columns: 160px 1fr;
-	grid-template-row: 300px 300px;
-}
-.box3{
-	grid-row: 2/3;
-	grid-column: 1/-1;
-}
-button:active{
-	transition: all ease 0.2s;
-	transform:scale(0.98);
-}
+	<style scoped>
+	@import url('https://fonts.googleapis.com/css?family=Montserrat');
+	main{
+		width:92%;
+		margin:0 auto; 
+		display:grid;
+		grid-template-columns: 160px 1fr;
+		grid-template-row: 300px 300px;
+	}
+	.box3{
+		grid-row: 2/3;
+		grid-column: 1/-1;
+	}
+	button:active{
+		transition: all ease 0.2s;
+		transform:scale(0.98);
+	}
 
-</style>
+	</style>
