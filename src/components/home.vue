@@ -57,7 +57,7 @@
   <!-- ///Refer box end//// -->
 
   <!-- ////////Our-collection/////////// -->
-     <h2 class="m-3 mt-5" style="font-size: xx-large;">Our Collection</h2>
+     <h2 id="properties" class="m-3 mt-5" style="font-size: xx-large;">Our Collection</h2>
      <div class="row m-1 justify-content-around">
        <div class="col-3 p-1"  data-aos="fade-up" data-aos-duration="3000" style="text-align: -webkit-center;">
       <div class="p-2" style="box-shadow:7px 3px 39px -21px rgb(0, 0, 0); width: fit-content;">   
