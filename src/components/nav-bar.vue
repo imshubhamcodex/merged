@@ -6,12 +6,16 @@
         <a class="navbar-brand" href="/index.html">
           <img style="width:134px" src="../assets/roomlelologo.png" alt="">
         </a>
-        <button class="btn btn-primary" @click="goto">find home</button>
+        <button class="btn btn-primary" >find home</button>
         <button class="navbar-toggler text-dark" type="button" style="display:inline !important;" v-on:click="showNav()">
           <span class="navbar-toggler-icon"></span>
         </button> 
       </div> 
     </nav>
+
+
+
+
 
     <div v-if = "renderNav" v-show = "show_nav" id="nav-menu" style="margin-top:0px; font-family:Montserrat; background:white; width:100%; padding-top:20px;">
       <ul style="margin:0;padding:0;padding-left:20px;padding-right:20px;">
@@ -106,15 +110,6 @@ export default {
     }
   },
   methods:{
-     goto:function(){
-           let queryObject = {
-                location: 'anywhere',
-                type: 'none',
-              
-            }
-         
-          this.$router.push({name:'result',query:{queryObject}});
-       },
     goToLog(){
       // set data of login  in vuex to use in user.vue
       store.commit({
@@ -236,7 +231,7 @@ export default {
     { 
       if(this.uid !=="" && this.uid !== null && this.uid !== undefined )
       {
-       firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
+       firebase.firestore().collection('userProfile').doc(this.uid).get().then(res =>{
         this.user_name = res.data().personal.name;
       }).catch(err =>{
        var splitStr = res.data().name.toString().split(" ");
@@ -244,7 +239,7 @@ export default {
        this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
      })
 
-      firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{
+      firebase.storage().ref("userImage/"+this.uid).getDownloadURL().then(url =>{
         this.img = url;
       }).catch(err =>{
         this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
@@ -286,15 +281,24 @@ this.renderNav = true;
 
 },
 mounted(){
-  if(user_profile!=false){
+  if(user_profile != false){
     this.uid = user_profile.getId();
   }else{
     this.uid = store.state.email+store.state.phone;
   }
 
+  if(user_profile!=false || this.uid != "" )
   this.modifyNav();
+
   window.modifyNav = this.modifyNav;
 
+},
+created(){
+   if(user_profile != false){
+    this.uid = user_profile.getId();
+  }else{
+    this.uid = store.state.email+store.state.phone;
+  }
 }
 
 }
