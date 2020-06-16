@@ -21,7 +21,7 @@
       <ul style="margin:0;padding:0;padding-left:20px;padding-right:20px;">
         <li style="list-style:none;float:right;" @click="closeNav()"><i @click="closeNav()" class="fa fa-times" aria-hidden="true"></i></li><br>
         <li style="list-style:none;" @click="closeNav()"><router-link style="color:black;" to="/"><p>Home</p></router-link></li>
-        <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Scheduled Visits</p></li>
+        <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p >Scheduled Visits</p></li>
         <li style="list-style:none;margin-top:14px;"><hr style="border:0.5px solid black;"></li>
         <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>About us</p></li>
         <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Join our Family</p></li>
@@ -65,9 +65,9 @@
       <ul style="margin:0;padding:0;padding-left:20px;padding-right:20px;">
         <br>
         <li style="list-style:none;" @click="closeNav()"><router-link style="color:black;" to="/"><p>Home</p></router-link></li>
-        <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Scheduled Visits</p></li>
-        <li id="myDash" style="list-style:none;margin-top:14px;" ><router-link style="color:black;" to="/dashboard"><p>My Dashboard</p></router-link></li></li>
-        <li id="serviceReq" style="list-style:none;margin-top:14px;" @click="closeNav()"><p>My Service Requests</p></li>
+        <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p style="margin-top:14px">Scheduled Visits</p></li>
+        <li id="myDash" style="list-style:none;margin-top:14px;" ><router-link style="color:black;" to="/dashboard"><p style="margin-top:14px">My Dashboard</p></router-link></li></li>
+        <li id="serviceReq" style="list-style:none;margin-top:14px;" @click="closeNav()"><p style="margin-top:14px">My Service Requests</p></li>
         <li style="list-style:none;margin-top:14px;"><hr style="border:0.5px solid black;"></li>
         <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>About us</p></li>
         <li style="list-style:none;margin-top:14px;" @click="closeNav()"><p>Join our Family</p></li>
