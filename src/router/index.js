@@ -2,6 +2,7 @@ import searchresult from '../components/searchresult.vue';
 import home from '../components/home.vue';
 import detail from '../components/detail.vue';
 import propertyRegister from '../components/propertyRegister.vue';
+import referAndEarn from '../components/referAndEarn.vue';
 
 
 import portal from '../components/portal.vue';
@@ -22,6 +23,7 @@ export default [
 {path:'/',component: home},
 {path:'/detail:id',component: detail},
 {path:'/propertyRegister', name:'propertyRegister',component: propertyRegister},
+{path:'/referAndEarn', name:'referAndEarn',component: referAndEarn},
 
 
 {
