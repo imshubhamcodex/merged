@@ -187,6 +187,20 @@
 				})
 
 				document.getElementById('data-uploaded').click();
+
+
+				// send sms
+				var settings = {
+					"async": true,
+					"crossDomain": true,
+					"url": "https://www.fast2sms.com/dev/bulk?authorization=bLhTVlxWKv8sYJOynkBMCQPU2meNS3uAXjrZ5D47c6gqpi0a1obPWLc8ywd2tAZ1YgjN9GSBC5HnF0VI&sender_id=RLL&message=Maintenance Request Submitted &language=english&route=p&numbers=8018439472,6388431021",
+					"method": "GET"
+				}
+
+				$.ajax(settings).done(function (response) {
+					console.log(response);
+				});
+
 			},
 			async fetchData(){
 
