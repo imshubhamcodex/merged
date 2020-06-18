@@ -108,11 +108,18 @@
 
 		data () {
 			return {
-				imageid:"",
-				uid:"",
+				imageid: "",
+				uid: "",
 				arrSolved: [],
 				arrUnsolved: [],
-				items:[]
+				items: [],
+				propertyManagerMobile: "",
+				name: "",  // client name
+				clientNumber: "",  // mobile number
+				propertyName: "",  // property ID
+				propertyAddress: "",
+				adminPhone: ""
+
 			}
 		},
 		methods:{
@@ -186,21 +193,76 @@
 					sl: slnum
 				})
 
-				document.getElementById('data-uploaded').click();
+				
 
+				//----------------------------------------------------//
 
-				// send sms
+				var msg =`
+
+				Hi ${this.name} ,
+				Thank you for reaching out to us.
+				We have received your service request for ${issue}.
+				Our property manager will get back to you soon.
+				For any assistance call (${this.propertyManagerMobile}) 
+
+				For further complain :- 6388431021.
+
+				`
+				console.log(this.clientNumber)
+				this.sendSMS(msg,this.clientNumber)
+
+				//----------------------------------------------------//
+				var msg = `
+
+				Service request from ${ this.name } 
+				Property name:- ${ this.propertyName } 
+				Room/flat no. N/A 
+				Address:- ${ this.propertyAddress } 
+				Type of request:- ${ service_type } 
+				Visit Date & time:- ${ visit_date +" "+ visit_time } 
+				Customer phone no.:- ${ this.clientNumber } 
+
+				`
+				console.log(this.propertyManagerMobile)
+				this.sendSMS(msg,this.propertyManagerMobile)
+			
+
+				//----------------------------------------------------//
+				var msg =`
+
+				Service request from  ${ this.name }
+				Property name:- ${ this.propertyName }
+				Room/flat no. N/A 
+				Address:- ${ this.propertyAddress }
+				Type of request:- ${ service_type }
+				Visit Date & time:- ${ visit_date +" "+ visit_time }
+				Customer phone no.:- ${ this.clientNumber }
+				Customer ID :- ${ this.uid }
+				Property manager no.:- ${ this.propertyManagerMobile }
+
+				`
+				console.log(this.adminPhone)
+				this.sendSMS(msg,this.adminPhone)
+
+				
+
+			},
+			sendSMS(msg,num){
+
+				if(num === this.adminPhone)
+					document.getElementById('data-uploaded').click(); // Done
+
 				var settings = {
 					"async": true,
 					"crossDomain": true,
-					"url": "https://www.fast2sms.com/dev/bulk?authorization=bLhTVlxWKv8sYJOynkBMCQPU2meNS3uAXjrZ5D47c6gqpi0a1obPWLc8ywd2tAZ1YgjN9GSBC5HnF0VI&sender_id=RLL&message=Maintenance Request Submitted &language=english&route=p&numbers=8018439472,6388431021",
+					"url": `https://www.fast2sms.com/dev/bulk?authorization=bLhTVlxWKv8sYJOynkBMCQPU2meNS3uAXjrZ5D47c6gqpi0a1obPWLc8ywd2tAZ1YgjN9GSBC5HnF0VI&sender_id=ALERT&message=${msg}&language=english&route=p&numbers=${num}`,
 					"method": "GET"
 				}
 
 				$.ajax(settings).done(function (response) {
 					console.log(response);
+					return;
 				});
-
 			},
 			async fetchData(){
 
@@ -300,7 +362,7 @@
 
 			}
 		},
-		mounted(){
+		async mounted(){
 			if(user_profile!=false){
 				this.uid = user_profile.getId();
 			}else{
@@ -314,10 +376,49 @@
 			}
 
 
+			firebase.firestore().collection('userProfile').doc(this.uid).get().then(res =>{
+				this.name = res.data().name;
+				this.clientNumber = res.data().personal.mobile
+			}).catch(err =>{
+				alert("Fill your Personal Info in My Profile");
+			})
+
+
+
+			 firebase.firestore().collection('propertyManager').get().then(res =>{   //I have to put .where query 
+				res.docs.forEach((ele)=>{
+					this.propertyManagerMobile = ele.id;
+				})
+			})
+
+			await firebase.firestore().collection('registeredUser').doc(this.uid).get().then(res =>{
+				this.propertyName = res.data().propertyId;
+			})
+
+			await firebase.firestore().collection("properties").doc(this.propertyName).get().then(res =>{
+				this.propertyAddress = res.data().location;
+			})
+
+			firebase.firestore().collection("Admin").get().then(res =>{
+				var adminNum = [];
+				res.docs.forEach((ele)=>{
+					adminNum.push(ele.id)
+				})
+				this.adminPhone = adminNum[0];
+			})
+
+
+
+
+
 		this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar 
 		document.getElementById('m_pic').addEventListener('change', function(e){
- 		pic = e.target.files[0]; // attach mainten. img file
- 	});
+ 			pic = e.target.files[0]; // attach mainten. img file
+ 		});
+
+
+
+
 
 		if(window.innerWidth >480){
 			document.getElementById('mainten').style.width = '60%';

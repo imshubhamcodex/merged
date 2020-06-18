@@ -90,7 +90,6 @@
 				days:"7 days",
 				stay:"",
 				seconds:"",
-				adminNums: [9999999999],
 				userNum: 9999999999
 			}
 		},
@@ -109,12 +108,12 @@
 
 				alert('Request Submitted')
 
-				var msg = "Exit request submitted by " + this.uid +" contact number "+this.userNum 
+				var msg = "Your request for exit property has been received. Very soon we will update you." 
 
 				var settings = {
 					"async": true,
 					"crossDomain": true,
-					"url": "https://www.fast2sms.com/dev/bulk?authorization=bLhTVlxWKv8sYJOynkBMCQPU2meNS3uAXjrZ5D47c6gqpi0a1obPWLc8ywd2tAZ1YgjN9GSBC5HnF0VI&sender_id=RLL&message=hi&language=english&route=p&numbers="+ this.userNum.toString()+","+this.adminNums[0],
+					"url": `https://www.fast2sms.com/dev/bulk?authorization=bLhTVlxWKv8sYJOynkBMCQPU2meNS3uAXjrZ5D47c6gqpi0a1obPWLc8ywd2tAZ1YgjN9GSBC5HnF0VI&sender_id=RLL&message=${msg}&language=english&route=p&numbers=${this.userNum}`,
 					"method": "GET"
 				}
 
@@ -204,14 +203,6 @@
 	 		this.userNum = res.data().personal.mobile;
 	 	}).catch(err =>{
 	 		alert("Mobile number not found")
-	 	})
-
-
-	 	await firebase.firestore().collection('Admin').get().then(res=>{
-	 		res.docs.forEach((ele,index) =>{
-	 			this.adminNums[index] = (ele.id);
-	 			console.log(ele.id);
-	 		})
 	 	})
 
 
