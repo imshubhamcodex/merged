@@ -118,7 +118,7 @@ export default {
   },
   registration(){
       //for new user to get register them
-      let name = document.getElementById('f-name').value+document.getElementById('l-name').value;
+      let name = document.getElementById('f-name').value+" "+document.getElementById('l-name').value;
       let phone = document.getElementById('pass').value;
       let password = document.getElementById('c-pass').value;
       let email = document.getElementById('user_email').value;
