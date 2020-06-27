@@ -270,15 +270,18 @@ export default {
 				this.img = res.data().image;
 				this.user_name = res.data().name;
 				if(res.data().personal.photo != undefined){
+					this.img = user_profile.getImageUrl();
 					this.img = res.data().personal.photo // get user image 
 					this.user_name = res.data().personal.name				
 				}else{
 					this.img = res.data().image;
 					this.user_name = res.data().name;
+					this.img = user_profile.getImageUrl();
 				}
 
 				}).catch(err =>{
 					console.log(err);
+					this.img = user_profile.getImageUrl();
 					
 				})
 		}else{ // error on new registration
