@@ -212,7 +212,7 @@ export default {
 			})
 		},
 		downloadAgreement(){
-			firebase.storage().ref("agreement/"+this.uid+".pdf").getDownloadURL().then(url =>{
+			firebase.storage().ref("agreement/"+this.uid).getDownloadURL().then(url =>{
 				window.open(url,'_blank')
 			}).catch(err =>{
 				console.log(err);
