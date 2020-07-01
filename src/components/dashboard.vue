@@ -204,7 +204,7 @@ export default {
 			
 		},
 		downloadChecklist(){ // always we have to put pdf in database
-			firebase.storage().ref("checklist/"+this.propertyId+".pdf").getDownloadURL().then(url =>{
+			firebase.storage().ref("checklist/"+this.propertyId).getDownloadURL().then(url =>{
 				console.log(this.propertyId)
 				window.open(url,'_blank')
 			}).catch(err =>{
