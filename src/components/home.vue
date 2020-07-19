@@ -30,7 +30,7 @@
   <!-- //////////high demand property//////////// -->
     <h2 class="ml-3" style="font-size: xx-large;">High in demand</h2>
     <div class="m-2">
-    <carousel :scrollPerPage="false" :autoplay="true" :navigationEnabled="false" paginationActiveColor="yellow" paginationColor="blue" :paginationEnabled="false"  :perPage=num :navigationNextLabel="next" :navigationPrevLabel="prev">
+    <carousel :scrollPerPage="false" :autoplay="true" :navigationEnabled="false" paginationActiveColor="yellow" paginationColor="blue" :paginationEnabled="false"  :perPage=num :navigationNextLabel="next" >
       <slide v-for="(place,index) in propertyInDemand" v-bind:key="index" >
          <div class="card mx-2" style="max-width: 300px;margin:auto"  >
         <span class="bg-info text-white p-1 ml-3" style="width:fit-content"  >new</span>

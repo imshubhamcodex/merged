@@ -210,7 +210,10 @@ export default {
 		if(user_profile!=false){
 			this.uid = user_profile.getId();
 		}else{
-			this.uid = store.state.email+store.state.phone;
+			this.uid = store.state.email + store.state.phone;
+			if(this.uid==""){
+				this.uid = store.state.userID;
+			}
 		}
 	}
 }

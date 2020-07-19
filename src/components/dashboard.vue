@@ -2,7 +2,7 @@
 	<div>
 		<div v-show = "shownav" id="nav_menu" style="margin-top:0px; font-family:Montserrat; margin-bottom:50px; background:white; width:100%; padding-top:20px;min-height:630px;">
 			<div v-on:click="showLinks()" style="width:100%;height:54px;background:rgb(60, 183, 198);position:relative;">
-					<img v-bind:src="img" style="width:55px;height:55px;margin-top:0px;margin-left:20px;" alt="">
+				<img v-bind:src="img" style="width:55px;height:55px;margin-top:0px;margin-left:20px;" alt="">
 				<div style="position:absolute; top:10%;margin-left:100px;color:white;">
 					<span style="font-size:15px;" > What's up {{ user_name}}</span>
 					<br>
@@ -148,61 +148,60 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import store from '../vuex/store'
-import Glide from '@glidejs/glide'
-import { Controls } from '@glidejs/glide/dist/glide.modular.esm'
-export default {
-	data(){
-		return{
-			title: "my vue file",
-			img:"https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg",
-			user_name:"",
-			propertyId:"",
-			uid:"",
-			showbar:true,
-			shownav:false,
-			showlinks:false
-		}
-	},
-	methods:{
-		showLinks(){
-			this.showlinks = !this.showlinks;
+	import firebase from 'firebase'
+	import store from '../vuex/store'
+	import Glide from '@glidejs/glide'
+	import { Controls } from '@glidejs/glide/dist/glide.modular.esm'
+	export default {
+		data(){
+			return{
+				title: "my vue file",
+				img:"https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg",
+				user_name:"",
+				propertyId:"",
+				uid:"",
+				showbar:true,
+				shownav:false,
+				showlinks:false
+			}
 		},
-		showNav(){
-			
-			var x = document.getElementById('nav_menu');
-			gsap.from(x,0.5,{opacity:0,ease:Power2.easeInOut,x:50})
-			this.showbar = false;
-			this.shownav = true;
-			
-		},
-		closeNav(){
-			this.showbar = true;
-			this.shownav = false;
-		},
-		signOut() {
+		methods:{
+			showLinks(){
+				this.showlinks = !this.showlinks;
+			},
+			showNav(){
+
+				var x = document.getElementById('nav_menu');
+				gsap.from(x,0.5,{opacity:0,ease:Power2.easeInOut,x:50})
+				this.showbar = false;
+				this.shownav = true;
+
+			},
+			closeNav(){
+				this.showbar = true;
+				this.shownav = false;
+			},
+			signOut() {
 			// if(user_profile != false){
 				var auth2 = gapi.auth2.getAuthInstance();
 				auth2.signOut().then(() => {
 					console.log('User signed out.');
 					user_profile=false;
               	this.loggedin = false; //to hide link to dashboard
-          })
+              })
 			// }
 
 			  // set data of user in vuex to use in user.vue
-              store.commit({
-                type: 'change',
-                email: "",
-                phone: ""
-              });
+			  store.commit({
+			  	type: 'change',
+			  	email: "",
+			  	phone: ""
+			  });
 
-			localStorage.clear();
-			alert("Logged Out")
-			this.$router.push("/")
-			
-		},
+			  localStorage.clear();
+			  this.$router.push("/")
+
+			},
 		downloadChecklist(){ // always we have to put pdf in database
 			firebase.storage().ref("checklist/"+this.propertyId).getDownloadURL().then(url =>{
 				console.log(this.propertyId)
@@ -219,8 +218,32 @@ export default {
 			})
 		}
 	},
-	mounted(){
+	async mounted(){
 		this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar  
+
+
+
+		if(user_profile!=false){
+			this.uid = user_profile.getId();
+			this.img = user_profile.getImageUrl();
+			localStorage.setItem('imgurl',user_profile.getImageUrl())
+			
+		}else{
+			this.uid = store.state.email + store.state.phone;
+
+			if(this.uid==""){
+				this.uid = store.state.userID;
+				this.img = localStorage.getItem('imgurl');
+			}
+
+		}
+
+		await firebase.firestore().collection('registeredUser').doc(this.uid).get().then(res =>{
+			this.propertyId = res.data().propertyId
+		})
+
+		
+
 
 		if(window.innerWidth > 480 )  // slider for desktop version
 		{
@@ -262,8 +285,11 @@ export default {
 
 
 
+
+
 		
 		if(user_profile !=false ){  // if logged in via gmail
+
 			this.img = user_profile.getImageUrl();
 			firebase.firestore().collection('userProfile').doc(user_profile.getId()).get().then(res =>{
 				this.user_name = res.data().name;
@@ -275,22 +301,41 @@ export default {
 					this.user_name = res.data().name;
 				}
 
-				}).catch(err =>{
-					console.log(err);
-					
-				})
+			}).catch(err =>{
+				console.log(err);
+
+			})
 		}else{ // error on new registration
+
 			var uid = store.state.email+store.state.phone;
 
-			firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
-				this.user_name = res.data().personal.name
-			})
+			if(uid==""){
+				uid = store.state.userID;
 
-			firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{
-				this.img = url;
-			}).catch(err =>{
-				this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
-			})
+				this.img = localStorage.getItem('imgurl');
+
+				await firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
+					this.user_name = res.data().name;
+
+				}).catch(err =>{
+					console.log(err);
+
+				})
+
+			}else{
+
+				await firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
+					this.user_name = res.data().personal.name
+				})
+
+				await firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{
+					this.img = url;
+				}).catch(err =>{
+					this.img = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
+				})
+
+			}
+
 		}
 
 		if(window.innerWidth > 480){
@@ -302,18 +347,24 @@ export default {
 		
 		
 	},
-	created(){
-		this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar  
+	async created(){
+		// this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar  
 
-		if(user_profile!=false){
-			this.uid = user_profile.getId();
-		}else{
-			this.uid = store.state.email+store.state.phone;
-		}
+		// if(user_profile!=false){
+		// 	this.uid = user_profile.getId();
 
-		firebase.firestore().collection('registeredUser').doc(this.uid).get().then(res =>{
-			this.propertyId = res.data().propertyId
-		})
+		// }else{
+		// 	this.uid = store.state.email + store.state.phone;
+		// 	console.log("UserID:", this.uid)
+
+		// 	if(this.uid=="")
+		// 		this.uid = store.state.userID;
+
+		// }
+
+		// await firebase.firestore().collection('registeredUser').doc(this.uid).get().then(res =>{
+		// 	this.propertyId = res.data().propertyId
+		// })
 
 	}
 

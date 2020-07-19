@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state:{
     email:"",
     phone:"",
-    createAccount:false
+    createAccount:false,
+    userID:""
   },
   mutations:{
     change(state,payload) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
       },
       createAcc(state,val){
         state.createAccount = val.setVal;
+      },
+      setUserID(state,val){
+        state.userID = val.setVal
       }
   },
 

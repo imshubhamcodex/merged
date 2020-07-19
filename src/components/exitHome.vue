@@ -78,95 +78,95 @@
 	</template>
 
 	<script>
-	import "regenerator-runtime/runtime";
-	import store from '../vuex/store'
-	import 'firebase/firestore'
-	import * as firebase from 'firebase';
-	export default {
-		data () {
-			return {
-				uid:"",
-				propertyId:"",
-				days:"7 days",
-				stay:"",
-				seconds:"",
-				userNum: 9999999999
-			}
-		},
-		methods:{
-			requestExit(){
-
-				firebase.firestore().collection('exitRequest').doc(this.uid).set({
-
-					withIn : this.days,
-					propertyId: this.propertyId,
-					uid: this.uid,
-					requestedDate: firebase.firestore.Timestamp.fromDate(new Date()),
-					exit : false
-
-				})
-
-				alert('Request Submitted')
-
-				var msg = "Your request for exit property has been received. Very soon we will update you." 
-
-				var settings = {
-					"async": true,
-					"crossDomain": true,
-					"url": `https://www.fast2sms.com/dev/bulk?authorization=bLhTVlxWKv8sYJOynkBMCQPU2meNS3uAXjrZ5D47c6gqpi0a1obPWLc8ywd2tAZ1YgjN9GSBC5HnF0VI&sender_id=RLL&message=${msg}&language=english&route=p&numbers=${this.userNum}`,
-					"method": "GET"
+		import "regenerator-runtime/runtime";
+		import store from '../vuex/store'
+		import 'firebase/firestore'
+		import * as firebase from 'firebase';
+		export default {
+			data () {
+				return {
+					uid:"",
+					propertyId:"",
+					days:"7 days",
+					stay:"",
+					seconds:"",
+					userNum: 9999999999
 				}
-
-				$.ajax(settings).done(function (response) {
-					console.log(response);
-				});
 			},
+			methods:{
+				requestExit(){
 
-			showDays(){
-				gsap.to("#exitDiv",1,{opacity:1,ease:Power3.easeInOut,y:-40})
-				document.getElementById('continueExit').disabled="true";
-				document.getElementById('continueExit').style.backgroundColor = '#ddd'
+					firebase.firestore().collection('exitRequest').doc(this.uid).set({
+
+						withIn : this.days,
+						propertyId: this.propertyId,
+						uid: this.uid,
+						requestedDate: firebase.firestore.Timestamp.fromDate(new Date()),
+						exit : false
+
+					})
+
+					alert('Request Submitted')
+
+					var msg = "Your request for exit property has been received. Very soon we will update you." 
+
+					var settings = {
+						"async": true,
+						"crossDomain": true,
+						"url": `https://www.fast2sms.com/dev/bulk?authorization=bLhTVlxWKv8sYJOynkBMCQPU2meNS3uAXjrZ5D47c6gqpi0a1obPWLc8ywd2tAZ1YgjN9GSBC5HnF0VI&sender_id=RLL&message=${msg}&language=english&route=p&numbers=${this.userNum}`,
+						"method": "GET"
+					}
+
+					$.ajax(settings).done(function (response) {
+						console.log(response);
+					});
+				},
+
+				showDays(){
+					gsap.to("#exitDiv",1,{opacity:1,ease:Power3.easeInOut,y:-40})
+					document.getElementById('continueExit').disabled="true";
+					document.getElementById('continueExit').style.backgroundColor = '#ddd'
+				},
+
+				setDays(days){
+
+					this.days = days +" days";
+
+					if(days === '7'){
+						document.getElementById('seven').style.background = '#3fb6c6'
+						document.getElementById('s-seven').style.color = "white";
+
+
+						document.getElementById('fifteen').style.background = 'white'
+						document.getElementById('s-fifteen').style.color = "black";
+						document.getElementById('month').style.background = 'white'
+						document.getElementById('s-month').style.color = "black";
+					}
+					else if(days === '15'){
+
+						document.getElementById('fifteen').style.background = '#3fb6c6'
+						document.getElementById('s-fifteen').style.color = "white";
+
+						document.getElementById('seven').style.background = 'white'
+						document.getElementById('s-seven').style.color = "black";
+						document.getElementById('month').style.background = 'white'
+						document.getElementById('s-month').style.color = "black";
+					}
+					else if(days === '30'){
+
+						document.getElementById('month').style.background = '#3fb6c6'
+						document.getElementById('s-month').style.color = "white";
+
+						document.getElementById('seven').style.background = 'white'
+						document.getElementById('s-seven').style.color = "black";
+						document.getElementById('fifteen').style.background = 'white'
+						document.getElementById('s-fifteen').style.color = "black";
+					}
+
+				}
+
 			},
-
-			setDays(days){
-
-				this.days = days +" days";
-
-				if(days === '7'){
-					document.getElementById('seven').style.background = '#3fb6c6'
-					document.getElementById('s-seven').style.color = "white";
-
-
-					document.getElementById('fifteen').style.background = 'white'
-					document.getElementById('s-fifteen').style.color = "black";
-					document.getElementById('month').style.background = 'white'
-					document.getElementById('s-month').style.color = "black";
-				}
-				else if(days === '15'){
-
-					document.getElementById('fifteen').style.background = '#3fb6c6'
-					document.getElementById('s-fifteen').style.color = "white";
-
-					document.getElementById('seven').style.background = 'white'
-					document.getElementById('s-seven').style.color = "black";
-					document.getElementById('month').style.background = 'white'
-					document.getElementById('s-month').style.color = "black";
-				}
-				else if(days === '30'){
-
-					document.getElementById('month').style.background = '#3fb6c6'
-					document.getElementById('s-month').style.color = "white";
-
-					document.getElementById('seven').style.background = 'white'
-					document.getElementById('s-seven').style.color = "black";
-					document.getElementById('fifteen').style.background = 'white'
-					document.getElementById('s-fifteen').style.color = "black";
-				}
-
-			}
-
-		},
-		async mounted(){
+			async mounted(){
 	 	this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar  
 
 	 	if(window.innerWidth>480){
@@ -210,32 +210,36 @@
 	 },
 	 created(){
 	 	if(user_profile!=false){
-	 		this.imageid = user_profile.getId();
 	 		this.uid = user_profile.getId();
 	 	}else{
-	 		this.imageid = store.state.email+store.state.phone;
 	 		this.uid = store.state.email+store.state.phone;
+
+	 		if(this.uid==""){
+				this.uid = store.state.userID;
+			}
 	 	}
+
+
 	 }
 	}
-	</script>
+</script>
 
-	<style scoped>
-	@import url('https://fonts.googleapis.com/css?family=Montserrat');
-	main{
-		width:92%;
-		margin:0 auto; 
-		display:grid;
-		grid-template-columns: 160px 1fr;
-		grid-template-row: 300px 300px;
-	}
-	.box3{
-		grid-row: 2/3;
-		grid-column: 1/-1;
-	}
-	button:active{
-		transition: all ease 0.2s;
-		transform:scale(0.98);
-	}
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+main{
+	width:92%;
+	margin:0 auto; 
+	display:grid;
+	grid-template-columns: 160px 1fr;
+	grid-template-row: 300px 300px;
+}
+.box3{
+	grid-row: 2/3;
+	grid-column: 1/-1;
+}
+button:active{
+	transition: all ease 0.2s;
+	transform:scale(0.98);
+}
 
-	</style>
+</style>

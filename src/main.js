@@ -27,7 +27,7 @@ Vue.use(Vuesax, {
 })
 
 
-
+Vue.config.silent = true;
 Vue.config.productionTip = false
 Vue.use(VueRouter);
 

@@ -47,30 +47,30 @@
      </div>
      <h6 style="margin-top:10px;margin:10px auto">Proceed to Dashboard</h6>
    </div>
-     <router-link to="/"><i style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;color:rgb(60, 183, 198);" class="fa fa-home" aria-hidden="true"></i></router-link>
+   <router-link to="/"><i style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:50px;color:rgb(60, 183, 198);" class="fa fa-home" aria-hidden="true"></i></router-link>
 
  </div>
 </template>
 
 <script>
-import db from '../firebase'
-import firebase from 'firebase'
-import store from '../vuex/store'
-export default {
-  data () {
-    return {
-      phoneNumberValidated: false,
-      otpSent: false,
-      recaptchaVerifier: {},
-      confirmationResult: {},
-      user: {},
-      key: 0,
-      loggedin: false,
-      email:" ",
-      phone:""
-    }
-  },
-  created(){
+  import db from '../firebase'
+  import firebase from 'firebase'
+  import store from '../vuex/store'
+  export default {
+    data () {
+      return {
+        phoneNumberValidated: false,
+        otpSent: false,
+        recaptchaVerifier: {},
+        confirmationResult: {},
+        user: {},
+        key: 0,
+        loggedin: false,
+        email:" ",
+        phone:""
+      }
+    },
+    created(){
     window.enrty_via_gmail = this.enrty_via_gmail; //expose this function to use on sucess logged in.
   },
   methods:{
@@ -83,11 +83,18 @@ export default {
            {
               document.getElementsByClassName('close')[0].click(); //to close modal
               this.loggedin = true;
-              this.$router.push('/dashboard')
+              this.$router.push('/dashboard');
+
+              store.commit({
+                type: 'setUserID',
+                setVal: user_profile.getId()
+              })
+
+
             }
             else{
               document.getElementsByClassName('close')[0].click(); //to close modal
-               this.$router.push('/');
+              this.$router.push('/');
             }
           })
         }
@@ -101,7 +108,7 @@ export default {
               phone: "sign via gmail",
               name: user_profile.getName(),
               image: user_profile.getImageUrl(),
-               email: user_profile.getEmail()
+              email: user_profile.getEmail()
             },
             {
               merge:true
@@ -139,7 +146,7 @@ export default {
                 email:email,
                 password:password,
                 phone:phone,
-                 name:name
+                name:name
               })
 
               
@@ -504,5 +511,5 @@ button:active{
 
            }
 
-           </style>
+         </style>
 

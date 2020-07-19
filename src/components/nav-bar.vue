@@ -190,7 +190,7 @@ export default {
      
      localStorage.clear();
      location.reload();
-     alert("Logged Out")
+    
    },
 
 

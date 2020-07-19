@@ -98,22 +98,22 @@
 	</template>
 
 	<script>
-	var pic;
-	import "regenerator-runtime/runtime";
-	import store from '../vuex/store'
-	import * as firebase from 'firebase';
-	import 'firebase/storage'
-	import 'firebase/firestore'
-	export default {
+		var pic;
+		import "regenerator-runtime/runtime";
+		import store from '../vuex/store'
+		import * as firebase from 'firebase';
+		import 'firebase/storage'
+		import 'firebase/firestore'
+		export default {
 
-		data () {
-			return {
-				imageid: "",
-				uid: "",
-				arrSolved: [],
-				arrUnsolved: [],
-				items: [],
-				propertyManagerMobile: "",
+			data () {
+				return {
+					imageid: "",
+					uid: "",
+					arrSolved: [],
+					arrUnsolved: [],
+					items: [],
+					propertyManagerMobile: "",
 				name: "",  // client name
 				clientNumber: "",  // mobile number
 				propertyName: "",  // property ID
@@ -225,7 +225,7 @@
 				`
 				console.log(this.propertyManagerMobile)
 				this.sendSMS(msg,this.propertyManagerMobile)
-			
+
 
 				//----------------------------------------------------//
 				var msg =`
@@ -314,7 +314,7 @@
 					}
 
 					var newEle =`
-					<div data-aos="fade-up"  data-aos-offset="120"style="width:95%;height:100px;background-color:white;border-radius:3px;border:1px solid #ddd;box-shadow:0px 2px 5px rgba(0,0,0,0.6);margin:12px auto;padding-top:7px;">
+					<div data-aos="fade-up"  data-aos-offset="100"style="width:95%;height:100px;background-color:white;border-radius:3px;border:1px solid #ddd;box-shadow:0px 2px 5px rgba(0,0,0,0.6);margin:12px auto;padding-top:7px;">
 					<span style="color:grey;font-size:13px;padding-left:20px;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
 					<h6 style="margin-left:20px;margin-top:7px;font-family:Montserrat;font-weight:700">${element.service}</h6>
 					<p style="margin-top:-8px;margin-left:27px;font-size:13px;position:relative;"><i style=${disp} class="fa fa-circle" aria-hidden="true"></i><span style="font-family:Montserrat;"> Service on progress</span></p>
@@ -346,7 +346,7 @@
 
 					var newEle =`
 
-					<div data-aos="fade-up"  data-aos-offset="120"style="width:95%;height:100px;background-color:white;border-radius:3px;border:1px solid #ddd;box-shadow:0px 2px 5px rgba(0,0,0,0.6);margin:12px auto;padding-top:7px;">
+					<div data-aos="fade-up"  data-aos-offset="100"style="width:95%;height:100px;background-color:white;border-radius:3px;border:1px solid #ddd;box-shadow:0px 2px 5px rgba(0,0,0,0.6);margin:12px auto;padding-top:7px;">
 					<span style="color:grey;font-size:13px;padding-left:20px;margin-top:10px;">${element.sl}</span> <span style="float:right;margin-right:20px;color:grey;font-size:13px;margin-top:0px;">${element.date}</span>
 					<h6 style="margin-left:20px;margin-top:7px;font-family:Montserrat;font-weight:700">${element.service}</h6>
 					<p style="margin-top:-8px;margin-left:27px;font-size:13px;position:relative;"><span style="font-family:Montserrat;color:green;font-weight:700;">  Done</span></p>
@@ -367,6 +367,10 @@
 				this.uid = user_profile.getId();
 			}else{
 				this.uid = store.state.email+store.state.phone;
+
+				if(this.uid==""){
+					this.uid = store.state.userID;
+				}
 			}
 
 			try {
@@ -386,26 +390,26 @@
 
 
 			 firebase.firestore().collection('propertyManager').get().then(res =>{   //I have to put .where query 
-				res.docs.forEach((ele)=>{
-					this.propertyManagerMobile = ele.id;
-				})
-			})
+			 	res.docs.forEach((ele)=>{
+			 		this.propertyManagerMobile = ele.id;
+			 	})
+			 })
 
-			await firebase.firestore().collection('registeredUser').doc(this.uid).get().then(res =>{
-				this.propertyName = res.data().propertyId;
-			})
+			 await firebase.firestore().collection('registeredUser').doc(this.uid).get().then(res =>{
+			 	this.propertyName = res.data().propertyId;
+			 })
 
-			await firebase.firestore().collection("properties").doc(this.propertyName).get().then(res =>{
-				this.propertyAddress = res.data().location;
-			})
+			 await firebase.firestore().collection("properties").doc(this.propertyName).get().then(res =>{
+			 	this.propertyAddress = res.data().location;
+			 })
 
-			firebase.firestore().collection("Admin").get().then(res =>{
-				var adminNum = [];
-				res.docs.forEach((ele)=>{
-					adminNum.push(ele.id)
-				})
-				this.adminPhone = adminNum[0];
-			})
+			 firebase.firestore().collection("Admin").get().then(res =>{
+			 	var adminNum = [];
+			 	res.docs.forEach((ele)=>{
+			 		adminNum.push(ele.id)
+			 	})
+			 	this.adminPhone = adminNum[0];
+			 })
 
 
 
@@ -433,6 +437,10 @@
 			this.uid = user_profile.getId();
 		}else{
 			this.uid = store.state.email+store.state.phone;
+
+			if(this.uid==""){
+				this.uid = store.state.userID;
+			}
 		}
 	}
 }
