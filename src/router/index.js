@@ -4,8 +4,6 @@ import detail from '../components/detail.vue';
 import propertyRegister from '../components/propertyRegister.vue';
 import referAndEarn from '../components/referAndEarn.vue';
 
-
-import portal from '../components/portal.vue';
 import login_signup_user from '../components/login_signup_user.vue';
 import dashboard from '../components/dashboard.vue';
 import user from '../components/user.vue';
@@ -26,10 +24,6 @@ export default [
 {path:'/referAndEarn', name:'referAndEarn',component: referAndEarn},
 
 
-{
-	path:'/portal', 
-	component: portal
-},
 {
 	path: '/login_signup_user',
 	component: login_signup_user
@@ -69,6 +63,5 @@ export default [
 {
 	path:'/overheadBills',
 	component: overheadBills
-}
-
+},
 ]

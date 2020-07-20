@@ -94,23 +94,23 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import store from '../vuex/store'
-export default {
-  data () {
-    return {
-      showbar:true,
-      shownav:false,
-      show_nav:false,
-      uid:"",
-      img:"",
-      user_name:"",
-      renderNav: true,
-      showlinks:false
-    }
-  },
-  methods:{
-    goToLog(){
+  import firebase from 'firebase'
+  import store from '../vuex/store'
+  export default {
+    data () {
+      return {
+        showbar:true,
+        shownav:false,
+        show_nav:false,
+        uid:"",
+        img:"",
+        user_name:"",
+        renderNav: true,
+        showlinks:false
+      }
+    },
+    methods:{
+      goToLog(){
       // set data of login  in vuex to use in user.vue
       store.commit({
         type: 'createAcc',
@@ -187,10 +187,22 @@ export default {
             })
 
      }
+
+     store.commit({
+      type: 'change',
+      email: "",
+      phone: ""
+    });
+
+     store.commit({
+      type: 'setUserID',
+      setVal:""
+    });
+
      
      localStorage.clear();
      location.reload();
-    
+
    },
 
 
@@ -288,17 +300,17 @@ mounted(){
   }
 
   if(user_profile!=false || this.uid != "" )
-  this.modifyNav();
+    this.modifyNav();
 
   window.modifyNav = this.modifyNav;
 
 },
 created(){
-   if(user_profile != false){
-    this.uid = user_profile.getId();
-  }else{
-    this.uid = store.state.email+store.state.phone;
-  }
+ if(user_profile != false){
+  this.uid = user_profile.getId();
+}else{
+  this.uid = store.state.email+store.state.phone;
+}
 }
 
 }

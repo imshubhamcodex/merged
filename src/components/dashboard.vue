@@ -137,7 +137,7 @@
 						<tr style="margin:0 auto;height:100px;">
 							<td  v-on:click="downloadAgreement()" style="margin:0 auto;text-align:center;"><img src="~../assets/agreement.png" style="height:100px;margin:0 auto;display:block" alt=""></td>
 							<td style="margin:0 auto;text-align:center;"><router-link to="/exitPage"><img src="~../assets/exithome.png" style="height:100px;margin:0 auto;display:block" alt=""></router-link></td>
-							<td style="margin:0 auto;text-align:center;"><img src="~../assets/refer.png" style="height:100px;margin:0 auto;display:block" alt=""></td>
+							<td style="margin:0 auto;text-align:center;"><router-link to="/referAndEarn" target="_blank"><img src="~../assets/refer.png" style="height:100px;margin:0 auto;display:block" alt=""></router-link></td>
 						</tr>
 
 					</tbody>
@@ -182,20 +182,25 @@
 				this.shownav = false;
 			},
 			signOut() {
-			// if(user_profile != false){
-				var auth2 = gapi.auth2.getAuthInstance();
-				auth2.signOut().then(() => {
-					console.log('User signed out.');
-					user_profile=false;
+				if(user_profile != false){
+					var auth2 = gapi.auth2.getAuthInstance();
+					auth2.signOut().then(() => {
+						console.log('User signed out.');
+						user_profile=false;
               	this.loggedin = false; //to hide link to dashboard
               })
-			// }
+				}
 
 			  // set data of user in vuex to use in user.vue
 			  store.commit({
 			  	type: 'change',
 			  	email: "",
 			  	phone: ""
+			  });
+
+			  store.commit({
+			  	type: 'setUserID',
+			  	setVal:""
 			  });
 
 			  localStorage.clear();
@@ -207,7 +212,8 @@
 				console.log(this.propertyId)
 				window.open(url,'_blank')
 			}).catch(err =>{
-				console.log(err)
+				console.log(err);
+				alert("N/A")
 			})
 		},
 		downloadAgreement(){
@@ -215,6 +221,7 @@
 				window.open(url,'_blank')
 			}).catch(err =>{
 				console.log(err);
+				alert("N/A")
 			})
 		}
 	},

@@ -8,10 +8,10 @@
              <div>
                  <div class="row p-3"> 
                      <div class="col-1">
-                         <div class="vl"><div class="sl"></div><div class="dl"></div></div>
+                         <div class="vl" style="float:left;position: absolute;"><div class="sl"></div><div class="dl"></div></div>
                          
                          </div>
-                    <div class="col-11"> 
+                    <div class="col-9"> 
          <h4 class="text-left">House tenant Detail</h4>
          <h5>The tenant will be contacted in this detail</h5>
      
@@ -43,9 +43,9 @@
              <div>
                  <div class="row p-3"> 
                      <div class="col-1">
-                         <div class="vl"><div class="sl"></div><div class="dl"></div></div>
+                         <div class="vl" style="float:left;position: absolute;"><div class="sl"></div><div class="dl"></div></div>
                          </div>
-                    <div class="col-11"> 
+                    <div class="col-9"> 
          <h4 class="text-left">House Owner Detail</h4>
          <h5>The tenant will be contacted in this detail</h5>
      
