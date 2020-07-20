@@ -741,10 +741,16 @@ export default {
  	var uid;
 
  	if(user_profile!=false){
- 		uid = user_profile.getId();
- 	}else{
- 		uid = this.email+this.phone;
- 	}
+			uid = user_profile.getId();	
+			localStorage.setItem('imgurl',user_profile.getImageUrl())
+		}else{
+			uid = store.state.email + store.state.phone;
+			if(uid==""){
+				uid = store.state.userID;
+			}
+		}
+
+
 
  	firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
 
@@ -808,11 +814,13 @@ export default {
 
  	if(user_profile!=false){
 	//ui stuff to hide chose image button
+	localStorage.setItem('imgurl',user_profile.getImageUrl())
 	document.getElementById("u_image_div").style.marginBottom = '-10px'
 	document.getElementById("userImage").style.display = 'none';
 
 	this.imageid = user_profile.getId()
 	this.proofid = user_profile.getId()
+
 	firebase.firestore().collection('userProfile').doc(user_profile.getId()).get().then(res =>{
 		this.user = res.data().image;
 		}).catch(err =>{
@@ -822,11 +830,21 @@ export default {
 			this.imageid = store.state.email+store.state.phone
 			this.proofid = store.state.email+store.state.phone
 			var uid = store.state.email+store.state.phone;
+			if(uid==""){
+				uid = store.state.userID;
+				this.imageid = uid;
+				this.proofid = uid;
+				this.user = localStorage.getItem('imgurl');
+			}else{
+
 			firebase.storage().ref("userImage/"+uid).getDownloadURL().then(url =>{ 
 				this.user = url;
-			}).catch(err =>{
+				}).catch(err =>{
 				this.user = "https://img.favpng.com/21/13/5/user-profile-default-computer-icons-network-video-recorder-png-favpng-7dPZA8WRdY80Uw3bdMWkEN4fR.jpg"
-			})
+				})
+			}
+
+		
 		}
 
 		if(window.innerWidth > 480){
@@ -839,10 +857,19 @@ export default {
 	},
 	created(){
 	this.$root.$children[0].$children[0].$el.style.display="none"; //to hide old nav bar
-	if(store.state.phone !=null){
+
+	if(store.state.phone !=""){
 		this.phone = store.state.phone // set email and phone to the users mail and phone from login_signup_user.vue
 		this.email = store.state.email
 	}
+
+
+
+
+
+
+
+
 	
 }
 

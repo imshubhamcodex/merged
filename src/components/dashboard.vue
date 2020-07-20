@@ -297,35 +297,31 @@
 		
 		if(user_profile !=false ){  // if logged in via gmail
 
-			this.img = user_profile.getImageUrl();
 			firebase.firestore().collection('userProfile').doc(user_profile.getId()).get().then(res =>{
 				this.user_name = res.data().name;
-				if(res.data().personal.photo != undefined){
-					this.img = res.data().personal.photo // get user image 
-					this.user_name = res.data().personal.name				
-				}else{
-					this.img = res.data().image;
-					this.user_name = res.data().name;
-				}
 
-			}).catch(err =>{
-				console.log(err);
+				if(res.data().personal != undefined)
+					this.user_name = res.data().personal.name				
+				else
+					this.user_name = res.data().name;
 
 			})
+
 		}else{ // error on new registration
 
 			var uid = store.state.email+store.state.phone;
 
 			if(uid==""){
+
 				uid = store.state.userID;
-
 				this.img = localStorage.getItem('imgurl');
-
-				await firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
+				firebase.firestore().collection('userProfile').doc(uid).get().then(res =>{
 					this.user_name = res.data().name;
 
-				}).catch(err =>{
-					console.log(err);
+					if(res.data().personal != undefined)
+						this.user_name = res.data().personal.name				
+					else
+						this.user_name = res.data().name;
 
 				})
 
@@ -353,26 +349,6 @@
 
 		
 		
-	},
-	async created(){
-		// this.$root.$children[0].$children[0].$el.style.display="none"; // to hide old nav bar  
-
-		// if(user_profile!=false){
-		// 	this.uid = user_profile.getId();
-
-		// }else{
-		// 	this.uid = store.state.email + store.state.phone;
-		// 	console.log("UserID:", this.uid)
-
-		// 	if(this.uid=="")
-		// 		this.uid = store.state.userID;
-
-		// }
-
-		// await firebase.firestore().collection('registeredUser').doc(this.uid).get().then(res =>{
-		// 	this.propertyId = res.data().propertyId
-		// })
-
 	}
 
 }
