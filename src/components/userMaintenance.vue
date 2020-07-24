@@ -255,7 +255,7 @@
 				var settings = {
 					"async": true,
 					"crossDomain": true,
-					"url": `https://www.fast2sms.com/dev/bulk?authorization=bLhTVlxWKv8sYJOynkBMCQPU2meNS3uAXjrZ5D47c6gqpi0a1obPWLc8ywd2tAZ1YgjN9GSBC5HnF0VI&sender_id=ALERT&message=${msg}&language=english&route=p&numbers=${num}`,
+					"url": `https://www.fast2sms.com/dev/bulk?authorization=z9Y8pVhTkA0dO6qaUFct21sE7yjNXnWJrfKlLCHSxwoI4iZbg5OkLA3K97qZtxIY4Cjynpfh1UzbEiPw&sender_id=ALERT&message=${msg}&language=english&route=p&numbers=${num}`,
 					"method": "GET"
 				}
 
